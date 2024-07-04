@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import com.harcanjo.forum.profile.Profile;
 import com.harcanjo.forum.profile.ProfileListDTO;
 import com.harcanjo.forum.profile.ProfileRegisterDTO;
 import com.harcanjo.forum.profile.ProfileRepository;
+import com.harcanjo.forum.profile.ProfileUpdateDTO;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -33,6 +35,13 @@ public class ProfileController {
 	@GetMapping
 	public Page<ProfileListDTO> showProfileList(Pageable page){
 		return repository.findAll(page).map(ProfileListDTO::new);
+	}
+	
+	@PutMapping
+	@Transactional
+	public void updateProfile(@RequestBody @Valid ProfileUpdateDTO data) {
+		var profile = repository.getReferenceById(data.id());
+		profile.updateProfileInformations(data);
 	}
 
 }

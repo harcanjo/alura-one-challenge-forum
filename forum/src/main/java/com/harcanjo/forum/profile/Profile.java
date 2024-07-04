@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,6 +27,12 @@ public class Profile {
 	
 	public Profile(ProfileRegisterDTO data){
 		this.name = data.name();
+	}
+
+	public void updateProfileInformations(@Valid ProfileUpdateDTO data) {
+		if (data.name() != null) {
+			this.name = data.name();
+		}		
 	}
 
 }

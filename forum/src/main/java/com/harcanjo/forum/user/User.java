@@ -9,6 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -35,7 +38,6 @@ public class User {
 	private String password;
 
 	// TODO: add this relationship
-	/*
 	@ManyToMany
     @JoinTable(
         name = "user_profile",
@@ -43,13 +45,13 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "profile_id")
     )
 	private List<Profile> profiles;
-	*/
+
 
 	public User(UserRegisterDTO data) {
 		this.name = data.name();
 		this.email = data.email();
 		this.password = data.password();
-		// this.profiles = new ArrayList<>();
+		this.profiles = new ArrayList<>();
 	}
 
 	public void updateUserInformations(@Valid UserUpdateDTO data) {
