@@ -4,7 +4,7 @@ public record ProfileListDTO(
 		String name
 		) {
 	
-	public ProfileListDTO(Profile user) {
-		this(user.getName());
+	public ProfileListDTO(Profile profile) {
+		this(profile.getName());
 	}
 }

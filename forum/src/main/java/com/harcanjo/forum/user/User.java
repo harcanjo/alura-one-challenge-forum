@@ -33,6 +33,7 @@ public class User {
 	
 	private String password;
 
+	// TODO: add this relationship
 	/*
 	@ManyToMany
     @JoinTable(
