@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Course {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -28,5 +28,10 @@ public class Course {
 
 	@Enumerated(EnumType.STRING)
 	private CourseCategory category;
+	
+	public Course(CourseRegisterDTO data) {
+		this.name = data.name();
+		this.category = data.category();
+	}
 	
 }
