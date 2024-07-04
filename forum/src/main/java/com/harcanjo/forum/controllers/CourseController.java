@@ -11,6 +11,7 @@ import com.harcanjo.forum.course.CourseRegisterDTO;
 import com.harcanjo.forum.course.CourseRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/courses")
@@ -21,7 +22,7 @@ public class CourseController {
 	
 	@PostMapping
 	@Transactional
-	public void register(@RequestBody CourseRegisterDTO data) {
+	public void register(@RequestBody @Valid CourseRegisterDTO data) {
 		repository.save(new Course(data));
 	}
 }
