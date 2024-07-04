@@ -10,6 +10,8 @@ import com.harcanjo.forum.profile.Profile;
 import com.harcanjo.forum.profile.ProfileRegisterDTO;
 import com.harcanjo.forum.profile.ProfileRepository;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/profiles")
 public class ProfileController {
@@ -18,6 +20,7 @@ public class ProfileController {
 	private ProfileRepository repository;
 	
 	@PostMapping
+	@Transactional
 	public void register(@RequestBody ProfileRegisterDTO data) {
 		repository.save(new Profile(data));
 	}
