@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,6 +33,17 @@ public class Course {
 	public Course(CourseRegisterDTO data) {
 		this.name = data.name();
 		this.category = data.category();
+	}
+
+	public void updateCourseInformations(@Valid CourseUpdateDTO data) {
+		if (data.name() != null) {
+			this.name = data.name();
+		}
+		
+		if (data.category() != null) {
+			this.category = data.category();
+		}
+		
 	}
 	
 }
