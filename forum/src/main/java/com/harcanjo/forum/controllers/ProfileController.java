@@ -11,6 +11,7 @@ import com.harcanjo.forum.profile.ProfileRegisterDTO;
 import com.harcanjo.forum.profile.ProfileRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/profiles")
@@ -21,7 +22,7 @@ public class ProfileController {
 	
 	@PostMapping
 	@Transactional
-	public void register(@RequestBody ProfileRegisterDTO data) {
+	public void register(@RequestBody @Valid ProfileRegisterDTO data) {
 		repository.save(new Profile(data));
 	}
 
