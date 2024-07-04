@@ -1,12 +1,16 @@
 package com.harcanjo.forum.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.harcanjo.forum.user.User;
+import com.harcanjo.forum.user.UserListDTO;
 import com.harcanjo.forum.user.UserRegisterDTO;
 import com.harcanjo.forum.user.UserRepository;
 
@@ -22,8 +26,12 @@ public class UserController {
 	
 	@PostMapping
 	@Transactional
-	public void register(@RequestBody @Valid UserRegisterDTO data) {
+	public void addUser(@RequestBody @Valid UserRegisterDTO data) {
 		repository.save(new User(data));
 	}
 
+	@GetMapping
+	public List<UserListDTO> showUserList(){
+		return repository.findAll().stream().map(UserListDTO::new).toList();
+	}
 }

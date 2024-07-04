@@ -1,5 +1,10 @@
 package com.harcanjo.forum.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.harcanjo.forum.profile.Profile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,10 +33,21 @@ public class User {
 	
 	private String password;
 
+	/*
+	@ManyToMany
+    @JoinTable(
+        name = "user_profile",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "profile_id")
+    )
+	private List<Profile> profiles;
+	*/
+
 	public User(UserRegisterDTO data) {
 		this.name = data.name();
 		this.email = data.email();
 		this.password = data.password();
+		// this.profiles = new ArrayList<>();
 	}
 	
 }
