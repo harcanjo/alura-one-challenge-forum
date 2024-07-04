@@ -10,6 +10,8 @@ import com.harcanjo.forum.course.Course;
 import com.harcanjo.forum.course.CourseRegisterDTO;
 import com.harcanjo.forum.course.CourseRepository;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
@@ -18,6 +20,7 @@ public class CourseController {
 	private CourseRepository repository;
 	
 	@PostMapping
+	@Transactional
 	public void register(@RequestBody CourseRegisterDTO data) {
 		repository.save(new Course(data));
 	}
