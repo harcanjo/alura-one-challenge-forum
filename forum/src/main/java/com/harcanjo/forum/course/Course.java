@@ -1,6 +1,8 @@
-package com.harcanjo.forum.user;
+package com.harcanjo.forum.course;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,28 +12,21 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "users")
-@Entity(name = "User")
+@Table(name="courses")
+@Entity(name="Course")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class User {
-	
+public class Course {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String name;
-	
-	private String email;
-	
-	private String password;
 
-	public User(UserRegisterDTO data) {
-		this.name = data.name();
-		this.email = data.email();
-		this.password = data.password();
-	}
+	@Enumerated(EnumType.STRING)
+	private CourseCategory category;
 	
 }
