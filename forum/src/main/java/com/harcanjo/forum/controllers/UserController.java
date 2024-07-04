@@ -36,7 +36,7 @@ public class UserController {
 
 	@GetMapping
 	public Page<UserListDTO> showUserList(Pageable page){
-		return repository.findAll(page).map(UserListDTO::new);
+		return repository.findAllByActiveTrue(page).map(UserListDTO::new);
 	}
 	
 	@PutMapping
@@ -49,7 +49,8 @@ public class UserController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void deleteUser(@PathVariable Long id) {
-		repository.deleteById(id);
+		var user = repository.getReferenceById(id);
+		user.inactivateUser();
 	}
 	
 }

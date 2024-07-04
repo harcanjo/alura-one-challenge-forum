@@ -36,6 +36,8 @@ public class User {
 	private String email;
 	
 	private String password;
+	
+	private Boolean active;
 
 	// TODO: add this relationship
 	@ManyToMany
@@ -50,6 +52,7 @@ public class User {
 		this.name = data.name();
 		this.email = data.email();
 		this.password = data.password();
+		this.active = true;
 		this.profiles = new ArrayList<>();
 	}
 
@@ -61,6 +64,10 @@ public class User {
 		if (data.password() != null) {
 			this.password = data.password();
 		}
+	}
+
+	public void inactivateUser() {
+		this.active = false;		
 	}
 	
 }
