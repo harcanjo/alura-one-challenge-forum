@@ -23,5 +23,9 @@ public class Profile {
 	private Long id;
 	
 	private String name;
+	
+	public Profile(ProfileRegisterDTO data){
+		this.name = data.name();
+	}
 
 }
