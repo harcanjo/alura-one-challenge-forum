@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -49,6 +50,16 @@ public class User {
 		this.email = data.email();
 		this.password = data.password();
 		// this.profiles = new ArrayList<>();
+	}
+
+	public void updateUserInformations(@Valid UserUpdateDTO data) {
+		if (data.name() != null) {
+			this.name = data.name();
+		}
+		
+		if (data.password() != null) {
+			this.password = data.password();
+		}
 	}
 	
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import com.harcanjo.forum.user.User;
 import com.harcanjo.forum.user.UserListDTO;
 import com.harcanjo.forum.user.UserRegisterDTO;
 import com.harcanjo.forum.user.UserRepository;
+import com.harcanjo.forum.user.UserUpdateDTO;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -33,5 +35,12 @@ public class UserController {
 	@GetMapping
 	public Page<UserListDTO> showUserList(Pageable page){
 		return repository.findAll(page).map(UserListDTO::new);
+	}
+	
+	@PutMapping
+	@Transactional
+	public void updateUser(@RequestBody @Valid UserUpdateDTO data) {
+		var user = repository.getReferenceById(data.id());
+		user.updateUserInformations(data);
 	}
 }
