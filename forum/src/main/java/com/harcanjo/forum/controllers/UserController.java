@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.harcanjo.forum.user.RegisterUserDTO;
+import com.harcanjo.forum.user.UserRegisterDTO;
 import com.harcanjo.forum.user.User;
 import com.harcanjo.forum.user.UserRepository;
 
 import jakarta.transaction.Transactional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 	
 	@Autowired
@@ -21,7 +21,7 @@ public class UserController {
 	
 	@PostMapping
 	@Transactional
-	public void register(@RequestBody RegisterUserDTO data) {
+	public void register(@RequestBody UserRegisterDTO data) {
 		repository.save(new User(data));
 	}
 

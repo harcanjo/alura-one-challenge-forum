@@ -25,7 +25,7 @@ public class User {
 	private String email;	
 	private String password;
 
-	public User(RegisterUserDTO data) {
+	public User(UserRegisterDTO data) {
 		this.name = data.name();
 		this.email = data.email();
 		this.password = data.password();
