@@ -39,13 +39,12 @@ public class User {
 
 	// TODO: add this relationship
 	@ManyToMany
-    @JoinTable(
+	@JoinTable(
         name = "user_profile",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "profile_id")
     )
 	private List<Profile> profiles;
-
 
 	public User(UserRegisterDTO data) {
 		this.name = data.name();
