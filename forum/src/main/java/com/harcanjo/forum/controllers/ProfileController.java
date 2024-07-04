@@ -1,8 +1,8 @@
 package com.harcanjo.forum.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,8 +31,8 @@ public class ProfileController {
 	}
 	
 	@GetMapping
-	public List<ProfileListDTO> showProfileList(){
-		return repository.findAll().stream().map(ProfileListDTO::new).toList();
+	public Page<ProfileListDTO> showProfileList(Pageable page){
+		return repository.findAll(page).map(ProfileListDTO::new);
 	}
 
 }
