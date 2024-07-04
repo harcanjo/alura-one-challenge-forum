@@ -1,8 +1,8 @@
 package com.harcanjo.forum.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +31,7 @@ public class UserController {
 	}
 
 	@GetMapping
-	public List<UserListDTO> showUserList(){
-		return repository.findAll().stream().map(UserListDTO::new).toList();
+	public Page<UserListDTO> showUserList(Pageable page){
+		return repository.findAll(page).map(UserListDTO::new);
 	}
 }
