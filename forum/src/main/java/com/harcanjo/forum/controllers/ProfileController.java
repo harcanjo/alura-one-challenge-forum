@@ -72,4 +72,10 @@ public class ProfileController {
 //		repository.deleteById(id);
 //	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<ProfileDetailsDTO> showUser(@PathVariable Long id) {
+		var profile = repository.getReferenceById(id);		
+		return ResponseEntity.ok(new ProfileDetailsDTO(profile));
+	}
+	
 }
