@@ -36,7 +36,7 @@ public class CourseController {
 	
 	@GetMapping
 	public Page<CourseListDTO> showCourseList(Pageable page){
-		return repository.findAll(page).map(CourseListDTO::new);
+		return repository.findAllByActiveTrue(page).map(CourseListDTO::new);
 	}
 	
 	@PutMapping
@@ -49,6 +49,13 @@ public class CourseController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void deleteCourse(@PathVariable Long id) {
-		repository.deleteById(id);
+		var course = repository.getReferenceById(id);
+		course.inactivateCourse();
 	}
+	
+//	@DeleteMapping("/{id}")
+//	@Transactional
+//	public void deleteCourse(@PathVariable Long id) {
+//		repository.deleteById(id);
+//	}
 }

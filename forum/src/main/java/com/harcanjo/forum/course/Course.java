@@ -30,9 +30,12 @@ public class Course {
 	@Enumerated(EnumType.STRING)
 	private CourseCategory category;
 	
+	private Boolean active;
+	
 	public Course(CourseRegisterDTO data) {
 		this.name = data.name();
 		this.category = data.category();
+		this.active = true;
 	}
 
 	public void updateCourseInformations(@Valid CourseUpdateDTO data) {
@@ -44,6 +47,10 @@ public class Course {
 			this.category = data.category();
 		}
 		
+	}
+
+	public void inactivateCourse() {
+		this.active = false;
 	}
 	
 }
