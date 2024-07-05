@@ -1,7 +1,11 @@
 package com.harcanjo.forum.profile;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProfileRepository extends JpaRepository<Profile, Long>{
+
+	Page<Profile> findAllByActiveTrue(Pageable page);
 
 }

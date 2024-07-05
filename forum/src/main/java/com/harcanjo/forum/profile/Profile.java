@@ -25,14 +25,21 @@ public class Profile {
 	
 	private String name;
 	
+	private Boolean active;
+	
 	public Profile(ProfileRegisterDTO data){
 		this.name = data.name();
+		this.active = true;
 	}
 
 	public void updateProfileInformations(@Valid ProfileUpdateDTO data) {
 		if (data.name() != null) {
 			this.name = data.name();
 		}		
+	}
+
+	public void inactivateProfile() {
+		this.active = false;		
 	}
 
 }

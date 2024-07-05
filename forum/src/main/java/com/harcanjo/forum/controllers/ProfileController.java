@@ -36,7 +36,7 @@ public class ProfileController {
 	
 	@GetMapping
 	public Page<ProfileListDTO> showProfileList(Pageable page){
-		return repository.findAll(page).map(ProfileListDTO::new);
+		return repository.findAllByActiveTrue(page).map(ProfileListDTO::new);
 	}
 	
 	@PutMapping
@@ -45,10 +45,18 @@ public class ProfileController {
 		var profile = repository.getReferenceById(data.id());
 		profile.updateProfileInformations(data);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void deleteProfile(@PathVariable Long id) {
-		repository.deleteById(id);
-	}
+		var profile = repository.getReferenceById(id);
+		profile.inactivateProfile();
+	}	
+	
+//	@DeleteMapping("/{id}")
+//	@Transactional
+//	public void deleteProfile(@PathVariable Long id) {
+//		repository.deleteById(id);
+//	}
+	
 }

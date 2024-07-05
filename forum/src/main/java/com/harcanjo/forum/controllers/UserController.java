@@ -46,11 +46,19 @@ public class UserController {
 		user.updateUserInformations(data);
 	}
 	
+// Logical Deletion	
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void deleteUser(@PathVariable Long id) {
 		var user = repository.getReferenceById(id);
 		user.inactivateUser();
 	}
+
+// Deletion From DB	
+//	@DeleteMapping("/{id}")
+//	@Transactional
+//	public void deleteUser(@PathVariable Long id) {
+//		repository.deleteById(id);
+//	}
 	
 }
