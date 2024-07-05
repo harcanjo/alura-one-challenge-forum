@@ -1,4 +1,4 @@
-package com.harcanjo.forum.infra;
+package com.harcanjo.forum.infra.exception;
 
 import java.util.List;
 
