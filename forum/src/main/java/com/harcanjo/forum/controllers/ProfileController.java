@@ -37,7 +37,7 @@ public class ProfileController {
 		var profile = new Profile(data);
 		repository.save(profile);
 		
-		var uri = uriBuilder.path("/user/{id}").buildAndExpand(profile.getId()).toUri();
+		var uri = uriBuilder.path("/profiles/{id}").buildAndExpand(profile.getId()).toUri();
 		
 		return ResponseEntity.created(uri).body(new ProfileDetailsDTO(profile));
 	}

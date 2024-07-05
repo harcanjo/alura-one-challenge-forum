@@ -3,6 +3,7 @@ package com.harcanjo.forum.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.harcanjo.forum.course.Course;
+import com.harcanjo.forum.course.CourseDetailsDTO;
 import com.harcanjo.forum.course.CourseListDTO;
 import com.harcanjo.forum.course.CourseRegisterDTO;
 import com.harcanjo.forum.course.CourseRepository;
@@ -30,27 +33,36 @@ public class CourseController {
 	
 	@PostMapping
 	@Transactional
-	public void addCourse(@RequestBody @Valid CourseRegisterDTO data) {
-		repository.save(new Course(data));
+	public ResponseEntity<CourseDetailsDTO> addCourse(@RequestBody @Valid CourseRegisterDTO data, UriComponentsBuilder uriBuilder) {
+		var course = new Course(data);
+		repository.save(course);
+		
+		var uri = uriBuilder.path("/courses/{id}").buildAndExpand(course.getId()).toUri();
+		return ResponseEntity.created(uri).body(new CourseDetailsDTO(course));
 	}
 	
 	@GetMapping
-	public Page<CourseListDTO> showCourseList(Pageable page){
-		return repository.findAllByActiveTrue(page).map(CourseListDTO::new);
+	public ResponseEntity<Page<CourseListDTO>> showCourseList(Pageable page){
+		var pageList = repository.findAllByActiveTrue(page).map(CourseListDTO::new);	
+		return ResponseEntity.ok(pageList);
 	}
 	
 	@PutMapping
 	@Transactional
-	public void updateCourse(@RequestBody @Valid CourseUpdateDTO data) {
+	public ResponseEntity<CourseDetailsDTO> updateCourse(@RequestBody @Valid CourseUpdateDTO data) {
 		var course = repository.getReferenceById(data.id());
 		course.updateCourseInformations(data);
+		
+		return ResponseEntity.ok(new CourseDetailsDTO(course));
 	}
 	
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void deleteCourse(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
 		var course = repository.getReferenceById(id);
 		course.inactivateCourse();
+		
+		return ResponseEntity.noContent().build();
 	}
 	
 //	@DeleteMapping("/{id}")
