@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.harcanjo.forum.user.User;
+import com.harcanjo.forum.user.UserDetailsDTO;
 import com.harcanjo.forum.user.UserListDTO;
 import com.harcanjo.forum.user.UserRegisterDTO;
 import com.harcanjo.forum.user.UserRepository;
 import com.harcanjo.forum.user.UserUpdateDTO;
-import com.harcanjo.forum.users.UserDetailsDTO;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -67,11 +67,17 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
-// Deletion From DB	
+	// Deletion From DB	
 //	@DeleteMapping("/{id}")
 //	@Transactional
 //	public void deleteUser(@PathVariable Long id) {
 //		repository.deleteById(id);
 //	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<UserDetailsDTO> showUser(@PathVariable Long id) {
+		var user = repository.getReferenceById(id);		
+		return ResponseEntity.ok(new UserDetailsDTO(user));
+	}
 	
 }
