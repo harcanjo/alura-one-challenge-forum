@@ -18,10 +18,12 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Table(name = "users")
 @Entity(name = "User")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -39,7 +41,7 @@ public class User {
 	
 	private Boolean active;
 
-	// TODO: add this relationship
+	// TODO: add this relationship to Profile
 	@ManyToMany
 	@JoinTable(
         name = "user_profile",
