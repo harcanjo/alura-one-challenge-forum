@@ -3,6 +3,7 @@ package com.harcanjo.forum.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.harcanjo.forum.user.User;
 import com.harcanjo.forum.user.UserListDTO;
 import com.harcanjo.forum.user.UserRegisterDTO;
 import com.harcanjo.forum.user.UserRepository;
 import com.harcanjo.forum.user.UserUpdateDTO;
+import com.harcanjo.forum.users.UserDetailsDTO;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -30,28 +33,38 @@ public class UserController {
 	
 	@PostMapping
 	@Transactional
-	public void addUser(@RequestBody @Valid UserRegisterDTO data) {
-		repository.save(new User(data));
+	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserRegisterDTO data, UriComponentsBuilder uriBuilder) {
+		var user = new User(data);		
+		repository.save(user);
+		
+		var uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
+	
+		return ResponseEntity.created(uri).body(new UserDetailsDTO(user));
 	}
 
 	@GetMapping
-	public Page<UserListDTO> showUserList(Pageable page){
-		return repository.findAllByActiveTrue(page).map(UserListDTO::new);
+	public ResponseEntity<Page<UserListDTO>> showUserList(Pageable page){
+		var pageList =  repository.findAllByActiveTrue(page).map(UserListDTO::new);
+		return ResponseEntity.ok(pageList);
 	}
 	
 	@PutMapping
 	@Transactional
-	public void updateUser(@RequestBody @Valid UserUpdateDTO data) {
+	public ResponseEntity<UserDetailsDTO> updateUser(@RequestBody @Valid UserUpdateDTO data) {
 		var user = repository.getReferenceById(data.id());
 		user.updateUserInformations(data);
+		
+		return  ResponseEntity.ok(new UserDetailsDTO(user));
 	}
 	
-// Logical Deletion	
+	// Logical Deletion	
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void deleteUser(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 		var user = repository.getReferenceById(id);
 		user.inactivateUser();
+		
+		return ResponseEntity.noContent().build();
 	}
 
 // Deletion From DB	
