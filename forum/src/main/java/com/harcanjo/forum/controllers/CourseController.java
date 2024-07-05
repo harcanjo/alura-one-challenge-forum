@@ -70,4 +70,10 @@ public class CourseController {
 //	public void deleteCourse(@PathVariable Long id) {
 //		repository.deleteById(id);
 //	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<CourseDetailsDTO> showCourse(@PathVariable Long id) {
+		var course = repository.getReferenceById(id);		
+		return ResponseEntity.ok(new CourseDetailsDTO(course));
+	}
 }
