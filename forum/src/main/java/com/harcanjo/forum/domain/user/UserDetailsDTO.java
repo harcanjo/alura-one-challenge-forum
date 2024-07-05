@@ -1,4 +1,4 @@
-package com.harcanjo.forum.user;
+package com.harcanjo.forum.domain.user;
 
 public record UserDetailsDTO(Long id, String name, String email) {
 	

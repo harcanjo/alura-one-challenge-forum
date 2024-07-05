@@ -1,4 +1,4 @@
-package com.harcanjo.forum.controllers;
+package com.harcanjo.forum.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.harcanjo.forum.course.Course;
-import com.harcanjo.forum.course.CourseDetailsDTO;
-import com.harcanjo.forum.course.CourseListDTO;
-import com.harcanjo.forum.course.CourseRegisterDTO;
-import com.harcanjo.forum.course.CourseRepository;
-import com.harcanjo.forum.course.CourseUpdateDTO;
+import com.harcanjo.forum.domain.course.Course;
+import com.harcanjo.forum.domain.course.CourseDetailsDTO;
+import com.harcanjo.forum.domain.course.CourseListDTO;
+import com.harcanjo.forum.domain.course.CourseRegisterDTO;
+import com.harcanjo.forum.domain.course.CourseRepository;
+import com.harcanjo.forum.domain.course.CourseUpdateDTO;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

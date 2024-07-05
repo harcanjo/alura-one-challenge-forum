@@ -1,9 +1,9 @@
-package com.harcanjo.forum.user;
+package com.harcanjo.forum.domain.user;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.harcanjo.forum.profile.Profile;
+import com.harcanjo.forum.domain.profile.Profile;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

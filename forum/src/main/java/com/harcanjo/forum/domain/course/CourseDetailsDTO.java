@@ -1,4 +1,4 @@
-package com.harcanjo.forum.course;
+package com.harcanjo.forum.domain.course;
 
 public record CourseDetailsDTO(Long id, String name, CourseCategory category) {
 

@@ -1,4 +1,4 @@
-package com.harcanjo.forum.course;
+package com.harcanjo.forum.domain.course;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

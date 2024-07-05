@@ -1,56 +1,55 @@
-package com.harcanjo.forum.course;
+package com.harcanjo.forum.domain.profile;
+
+import java.util.List;
+
+import com.harcanjo.forum.domain.user.User;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Table(name="courses")
-@Entity(name="Course")
+@Table(name="profiles")
+@Entity(name="Profile")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Course {
+public class Profile {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String name;
-
-	@Enumerated(EnumType.STRING)
-	private CourseCategory category;
 	
 	private Boolean active;
 	
-	public Course(CourseRegisterDTO data) {
+	@ManyToMany(mappedBy = "profiles")
+	private List<User> users;
+	
+	public Profile(ProfileRegisterDTO data){
 		this.name = data.name();
-		this.category = data.category();
 		this.active = true;
 	}
 
-	public void updateCourseInformations(@Valid CourseUpdateDTO data) {
+	public void updateProfileInformations(@Valid ProfileUpdateDTO data) {
 		if (data.name() != null) {
 			this.name = data.name();
-		}
-		
-		if (data.category() != null) {
-			this.category = data.category();
-		}
-		
+		}		
 	}
 
-	public void inactivateCourse() {
-		this.active = false;
+	public void inactivateProfile() {
+		this.active = false;		
 	}
-	
+
 }

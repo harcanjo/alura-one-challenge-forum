@@ -1,4 +1,4 @@
-package com.harcanjo.forum.profile;
+package com.harcanjo.forum.domain.profile;
 
 public record ProfileListDTO(
 		Long id,
