@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.harcanjo.forum.domain.user.AuthenticationDTO;
 import com.harcanjo.forum.domain.user.User;
+import com.harcanjo.forum.infra.security.JWTTokenDTO;
 import com.harcanjo.forum.infra.security.TokenService;
 
 import jakarta.validation.Valid;
@@ -27,10 +28,12 @@ public class AuthenticationController {
 	
 	@PostMapping
 	public ResponseEntity loginAuth(@RequestBody @Valid AuthenticationDTO data) {
-		var token = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-		var authentication = manager.authenticate(token);
+		var authenticationToken = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+		var authentication = manager.authenticate(authenticationToken);
 		
-		return ResponseEntity.ok(tokenService.generateToken((User) authentication.getPrincipal()));
+		var jwtToken = tokenService.generateToken((User) authentication.getPrincipal());
+		
+		return ResponseEntity.ok(new JWTTokenDTO(jwtToken));
 	}
 
 }
