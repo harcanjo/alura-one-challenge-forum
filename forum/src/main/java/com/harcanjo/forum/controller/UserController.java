@@ -39,10 +39,24 @@ public class UserController {
 	@Transactional
 	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserRegisterDTO data, UriComponentsBuilder uriBuilder) {		
 		// TODO: validate if the user login/email already exists
+//		if (repository.existsByEmail(data.email())) {
+//	        return ResponseEntity.badRequest().body("E-mail already in use.");
+//	    }
 		
 		String encryptedPassword = passwordEncoder.encode(data.password());
 		
-		var user = new User(data, encryptedPassword);		
+		var user = new User(data, encryptedPassword);	
+		
+		// TODO: associate to a profile if its not created/informed in the registration
+//		if (data.profiles() != null && !data.profiles().isEmpty()) {
+//	        Profile specifiedProfile = profileRepository.findByName(data.profile.name())
+//	                .orElseThrow(() -> new IllegalArgumentException("Profile not found: " + data.profile.name()));
+//	        user.getProfiles().add(specifiedProfile);
+//	    } else {
+//	        Profile defaultProfile = profileRepository.findByName("New Student")
+//	                .orElseGet(() -> profileRepository.save(new profile("New Student")));
+//	        user.getProfiles().add(defaultProfile);
+//	    }
 		
 		repository.save(user);
 		

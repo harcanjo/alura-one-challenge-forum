@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.harcanjo.forum.domain.user.AuthenticationDTO;
+import com.harcanjo.forum.domain.user.User;
+import com.harcanjo.forum.infra.security.TokenService;
 
 import jakarta.validation.Valid;
 
@@ -20,12 +22,15 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationManager manager;
 	
+	@Autowired
+	private TokenService tokenService;
+	
 	@PostMapping
 	public ResponseEntity loginAuth(@RequestBody @Valid AuthenticationDTO data) {
 		var token = new UsernamePasswordAuthenticationToken(data.email(), data.password());
 		var authentication = manager.authenticate(token);
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(tokenService.generateToken((User) authentication.getPrincipal()));
 	}
 
 }
