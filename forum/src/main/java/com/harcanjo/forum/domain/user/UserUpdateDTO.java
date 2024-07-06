@@ -8,7 +8,4 @@ public record UserUpdateDTO(
 		String name,
 		String password
 		) {
-	
-	
-
 }
