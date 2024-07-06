@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.harcanjo.forum.domain.user.User;
 
 @Service
@@ -34,6 +35,19 @@ public class TokenService {
 		}
 	}
 
+	public String getSubject(String jwtToken) {
+		try {
+			var algorithm = Algorithm.HMAC256(secret);
+		    return JWT.require(algorithm)
+		        .withIssuer("API Forum Hub")		        
+		        .build()
+		        .verify(jwtToken)
+		        .getSubject();
+		} catch (JWTVerificationException exception){
+		    throw new RuntimeException("JWT token invalid or expired!", exception);
+		}
+	}
+	
 	private Instant expirationDate() {
 		return LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));
 	}
