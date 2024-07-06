@@ -55,10 +55,10 @@ public class User implements UserDetails {
     )
 	private List<Profile> profiles;
 
-	public User(UserRegisterDTO data) {
+	public User(UserRegisterDTO data, String passwordEncrypted) {
 		this.name = data.name();
 		this.email = data.email();
-		this.password = data.password();
+		this.password = passwordEncrypted;
 		this.active = true;
 		this.profiles = new ArrayList<>();
 	}
