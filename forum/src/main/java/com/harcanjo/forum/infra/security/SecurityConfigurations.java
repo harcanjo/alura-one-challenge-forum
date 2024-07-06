@@ -14,21 +14,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
-
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	    return http.csrf(csrf -> csrf.disable())
-	            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-	            .build();
+	    return 
+	        http.csrf(csrf -> csrf.disable())
+	        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	        .authorizeHttpRequests(req -> {
+	            req.requestMatchers("/auth").permitAll();
+	            req.anyRequest().authenticated();
+	        })
+	    .build();
 	}
-	
-	// Deprecated
-//	@Bean
-//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//		return http.csrf().disable()
-//				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//				.and().build();
-//	}
 	
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {

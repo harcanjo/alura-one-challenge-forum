@@ -3,8 +3,12 @@ package com.harcanjo.forum.infra.security;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.harcanjo.forum.domain.user.UserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,13 +21,22 @@ public class SecurityFilter extends OncePerRequestFilter {
 	@Autowired
 	private TokenService tokenService;
 
+	@Autowired
+	private UserRepository repository;
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {		
-		var jwtToken = tokenRecover(request);		
-		var subject = tokenService.getSubject(jwtToken);
+		var jwtToken = tokenRecover(request);	
 		
-		
+		if (jwtToken != null) {
+			var subject = tokenService.getSubject(jwtToken);
+			var user = repository.findByEmail(subject);
+			
+			var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+			
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}		
 		
 		filterChain.doFilter(request, response);		
 	}
@@ -31,11 +44,11 @@ public class SecurityFilter extends OncePerRequestFilter {
 	private String tokenRecover(HttpServletRequest request) {
 		var authorizationHeader = request.getHeader("Authorization");
 		
-		if(authorizationHeader == null) {
-			throw new RuntimeException("The JWT token was not sent in the authorization header.");
+		if(authorizationHeader != null) {
+			return authorizationHeader.replace("Bearer ", "");
 		}
 		
-		return authorizationHeader.replace("Bearer ", "");
+		return null;
 	}
 
 }
