@@ -51,5 +51,4 @@ public class Profile {
 	public void inactivateProfile() {
 		this.active = false;		
 	}
-
 }

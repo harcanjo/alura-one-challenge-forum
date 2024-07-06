@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.harcanjo.forum.domain.profile.Profile;
+import com.harcanjo.forum.domain.profile.ProfileRepository;
 import com.harcanjo.forum.domain.user.User;
 import com.harcanjo.forum.domain.user.UserDetailsDTO;
 import com.harcanjo.forum.domain.user.UserListDTO;
@@ -38,13 +40,7 @@ public class UserController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserRegisterDTO data, UriComponentsBuilder uriBuilder) {		
-		// TODO: validate if the user login/email already exists
-//		if (repository.existsByEmail(data.email())) {
-//	        return ResponseEntity.badRequest().body("E-mail already in use.");
-//	    }
-		
-		String encryptedPassword = passwordEncoder.encode(data.password());
-		
+		String encryptedPassword = passwordEncoder.encode(data.password());		
 		var user = new User(data, encryptedPassword);	
 		
 		// TODO: associate to a profile if its not created/informed in the registration

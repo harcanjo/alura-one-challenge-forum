@@ -16,6 +16,8 @@ import com.harcanjo.forum.domain.user.User;
 @Service
 public class TokenService {
 	
+	private static final String ISSUER = "API Forum Hub";
+	
 	@Value("${api.security.token.secret}")
 	private String secret;
 	
@@ -24,7 +26,7 @@ public class TokenService {
 		try {
 		    var algorithm = Algorithm.HMAC256(secret);
 		    return JWT.create()
-		        .withIssuer("API Forum Hub")
+		        .withIssuer(ISSUER)
 		        .withSubject(user.getEmail())
 		        .withClaim("id", user.getId())
 		        .withClaim("name", user.getName())
@@ -39,7 +41,7 @@ public class TokenService {
 		try {
 			var algorithm = Algorithm.HMAC256(secret);
 		    return JWT.require(algorithm)
-		        .withIssuer("API Forum Hub")		        
+		        .withIssuer(ISSUER)		        
 		        .build()
 		        .verify(jwtToken)
 		        .getSubject();
