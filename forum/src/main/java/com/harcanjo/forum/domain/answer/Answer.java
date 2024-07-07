@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -49,6 +50,15 @@ public class Answer {
 	@Column(name = "topic_solution")
 	private Boolean topicSolution;
 	
-	private Boolean active;
+	private Boolean active;	
+
+	public Answer(@Valid AnswerCreationDTO data, User user, Topic topic) {
+		this.message = data.message();
+		this.topic = topic;
+		this.createdAt = LocalDateTime.now();
+		this.user = user;
+		this.topicSolution = false;
+		this.active = true;
+	}
 
 }
