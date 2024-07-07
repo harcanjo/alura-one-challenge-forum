@@ -26,10 +26,24 @@ public class TopicService {
 			throw new ValidationException("Course name entered does not exist");
 		}
 					
-		var user = userRepository.findById(loggedUser.getId()).get();
-		var course = courseRepository.findByName(data.courseName());
+		var user = userRepository.getReferenceById(loggedUser.getId());
+		var course = courseRepository.getReferenceByName(data.courseName());
 		var topic = new Topic(data, user, course);
 		topicRepository.save(topic);
+	}
+
+	public void deleteTopic(Long id, User loggedUser) {
+		if(!topicRepository.existsById(id)) {
+			throw new ValidationException("Topic id entered does not exist");
+	    }		
+		
+		var topic = topicRepository.getReferenceById(id);
+		
+		if (topic.getUser().getId() != loggedUser.getId()) {
+			throw new ValidationException("This topic was not created by you (logged in user)");
+		}
+		
+		topic.inactivateTopic();
 	}
 	
 }

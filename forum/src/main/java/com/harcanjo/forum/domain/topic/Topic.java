@@ -65,5 +65,8 @@ public class Topic {
 		this.active = true;
 		this.answers = new ArrayList<>();
 	}
-
+	
+	public void inactivateTopic() {
+		this.active = false;		
+	}
 }
