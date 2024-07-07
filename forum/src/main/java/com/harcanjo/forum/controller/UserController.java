@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +68,15 @@ public class UserController {
 		return ResponseEntity.ok(pageList);
 	}
 	
+	// TODO: check methods that need to get logged user
+//	@GetMapping
+//	public ResponseEntity<Page<UserListDTO>> showUserList(Pageable page,@AuthenticationPrincipal User loggedUser){
+//		System.out.println("Logged user: " + loggedUser.getEmail() + ", with ID: " + loggedUser.getId());
+//		
+//		var pageList =  repository.findAllByActiveTrue(page).map(UserListDTO::new);
+//		return ResponseEntity.ok(pageList);
+//	}
+	
 	@PutMapping
 	@Transactional
 	public ResponseEntity<UserDetailsDTO> updateUser(@RequestBody @Valid UserUpdateDTO data) {
@@ -86,7 +96,7 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
-	// Deletion From DB	
+	// TODO: check the need of Deletion From DB or just logical deletion	
 //	@DeleteMapping("/{id}")
 //	@Transactional
 //	public void deleteUser(@PathVariable Long id) {
