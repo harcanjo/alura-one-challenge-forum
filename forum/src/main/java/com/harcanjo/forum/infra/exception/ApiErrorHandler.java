@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.harcanjo.forum.domain.ValidationException;
+
 import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
@@ -27,12 +29,10 @@ public class ApiErrorHandler {
 		return ResponseEntity.badRequest().body(errors.stream().map(ValidationErrorDTO::new).toList());
 	}
 	
-	// TODO: Improve this feedback to show only necessary parts
-	@ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        String errorMessage = "Erro de integridade de dados: " + ex.getMessage();
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
-    }
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<String> handleErrorBusinessLogic(ValidationException ex) {		
+		return ResponseEntity.badRequest().body(ex.getMessage());
+	}
 	
 	private record ValidationErrorDTO(String field, String message) {
 		public ValidationErrorDTO(FieldError error) {

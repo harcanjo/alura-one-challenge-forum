@@ -18,7 +18,7 @@ import com.harcanjo.forum.domain.topic.TopicCreationDTO;
 import com.harcanjo.forum.domain.topic.TopicDetailsDTO;
 import com.harcanjo.forum.domain.topic.TopicListDTO;
 import com.harcanjo.forum.domain.topic.TopicRepository;
-import com.harcanjo.forum.domain.topic.TopicCreationService;
+import com.harcanjo.forum.domain.topic.TopicService;
 import com.harcanjo.forum.domain.topic.TopicUpdateDTO;
 import com.harcanjo.forum.domain.user.User;
 
@@ -30,22 +30,18 @@ import jakarta.validation.Valid;
 public class TopicController {
 	
 	@Autowired
-	private TopicCreationService topicService;
+	private TopicService topicService;
 	
 	@Autowired
 	private TopicRepository repository;
 	
-	// TODO: duplicated title and messages are not allowed
 	@PostMapping
 	@Transactional
 	public ResponseEntity<TopicDetailsDTO> createTopic(@RequestBody @Valid TopicCreationDTO data, @AuthenticationPrincipal User loggedUser) {
-		topicService.createTopic(data, loggedUser);		
-		return ResponseEntity.ok(new TopicDetailsDTO(null, null, null, null, null, null, null));
+		var dto = topicService.createTopic(data, loggedUser);		
+		return ResponseEntity.ok(dto);
 	}
-	
-	// TODO: check id in request
-	// TODO: check if topic exist in db .isPresent()
-	// TODO: use deleteById of JpaRepository
+
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Void> deleteTopic(@PathVariable Long id, @AuthenticationPrincipal User loggedUser) {
@@ -61,22 +57,19 @@ public class TopicController {
 		var pageList =  repository.findAllByActiveTrue(page).map(TopicListDTO::new);
 		return ResponseEntity.ok(pageList);
 	}
-	
-	// TODO: verify if id was correctly informed
+
 	@GetMapping("/{id}")
 	public ResponseEntity<TopicDetailsDTO> showTopic(@PathVariable Long id) {
-		var topic = repository.getReferenceById(id);		
-		return ResponseEntity.ok(new TopicDetailsDTO(topic));
+		var dto = topicService.showTopicByID(id);		
+		return ResponseEntity.ok(dto);
 	}
 	
 	// TODO: Same steps as creating topic
 	// check if topic .isPresent()
-	@PutMapping
+	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<TopicDetailsDTO> updateTopic(@RequestBody @Valid TopicUpdateDTO data, @AuthenticationPrincipal User loggedUser) {
-		var topic = repository.getReferenceById(data.id());
-		topic.updateTopicInformations(data);
-		
-		return ResponseEntity.ok(new TopicDetailsDTO(topic));
+	public ResponseEntity<TopicDetailsDTO> updateTopic(@PathVariable Long id, @RequestBody @Valid TopicUpdateDTO data, @AuthenticationPrincipal User loggedUser) {
+		var dto = topicService.updateTopic(id, data, loggedUser);		
+		return ResponseEntity.ok(dto);
 	}
 }

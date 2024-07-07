@@ -1,12 +1,11 @@
-package com.harcanjo.forum.domain.topic.validations;
+package com.harcanjo.forum.domain.topic.validations.create;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.harcanjo.forum.domain.ValidationException;
 import com.harcanjo.forum.domain.topic.TopicCreationDTO;
 import com.harcanjo.forum.domain.topic.TopicRepository;
-
-import jakarta.validation.ValidationException;
 
 @Component
 public class ValidatorUniqueTopic implements ValidatorTopicCreation {

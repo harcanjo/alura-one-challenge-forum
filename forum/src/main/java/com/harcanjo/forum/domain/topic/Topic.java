@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.harcanjo.forum.domain.course.Course;
 import com.harcanjo.forum.domain.user.User;
-import com.harcanjo.forum.domain.user.UserUpdateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -76,20 +75,17 @@ public class Topic {
 		this.active = false;		
 	}
 	
-	public void updateTopicInformations(@Valid TopicUpdateDTO data) {
-
-		// TODO: move to service
-		// Get the course if exists on the service
-//		if (data.courseName() != null) {
-//			this.course = data.courseName();
-//		}
-//		
-//		if (data.title() != null) {
-//			this.title = data.title();
-//		}
-//		
-//		if (data.message() != null) {
-//			this.message = data.message();
-//		}
+	public void updateTopicInformations(@Valid TopicUpdateDTO data, Course course) {
+		if (course != null) {
+			this.course = course;
+		}
+		
+		if (data.title() != null) {
+			this.title = data.title();
+		}
+		
+		if (data.message() != null) {
+			this.message = data.message();
+		}
 	}
 }

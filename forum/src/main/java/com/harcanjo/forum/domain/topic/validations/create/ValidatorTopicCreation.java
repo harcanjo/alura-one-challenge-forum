@@ -1,4 +1,4 @@
-package com.harcanjo.forum.domain.topic.validations;
+package com.harcanjo.forum.domain.topic.validations.create;
 
 import com.harcanjo.forum.domain.topic.TopicCreationDTO;
 
