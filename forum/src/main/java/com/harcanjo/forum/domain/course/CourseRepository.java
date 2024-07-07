@@ -8,4 +8,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
 	Page<Course> findAllByActiveTrue(Pageable page);
 
+	Course findByName(String courseName);
+
+	boolean existsByName(String courseName);
+
 }

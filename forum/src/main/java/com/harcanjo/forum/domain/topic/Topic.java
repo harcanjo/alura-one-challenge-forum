@@ -1,6 +1,7 @@
 package com.harcanjo.forum.domain.topic;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.harcanjo.forum.domain.course.Course;
@@ -29,7 +30,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Topic {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -49,7 +50,20 @@ public class Topic {
 	@JoinColumn(name = "course_id")
 	private Course course;
 	
+	private Boolean active;
+	
 	// TODO: create answers type
 	private List<String> answers;
+
+	public Topic(TopicCreationDTO data, User user, Course course) {
+		this.title = data.title();
+		this.message = data.message();
+		this.createdAt = LocalDateTime.now();
+		this.status = TopicStatus.NOT_ANSWERED;
+		this.user = user;
+		this.course = course;
+		this.active = true;
+		this.answers = new ArrayList<>();
+	}
 
 }
