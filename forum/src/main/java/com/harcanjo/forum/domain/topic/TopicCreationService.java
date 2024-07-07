@@ -1,16 +1,19 @@
 package com.harcanjo.forum.domain.topic;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.harcanjo.forum.domain.ValidationException;
 import com.harcanjo.forum.domain.course.CourseRepository;
+import com.harcanjo.forum.domain.topic.validations.ValidatorTopicCreation;
 import com.harcanjo.forum.domain.user.User;
 import com.harcanjo.forum.domain.user.UserRepository;
 
 @Service
-public class TopicService {
+public class TopicCreationService {
 
 	@Autowired
 	private TopicRepository topicRepository;
@@ -21,10 +24,15 @@ public class TopicService {
 	@Autowired
 	private CourseRepository courseRepository;
 	
+	@Autowired
+	private List<ValidatorTopicCreation> validators;
+	
 	public void createTopic(TopicCreationDTO data, @AuthenticationPrincipal User loggedUser) {		
 		if (!courseRepository.existsByName(data.courseName())) {
 			throw new ValidationException("Course name entered does not exist");
 		}
+		
+		validators.forEach(v -> v.validate(data));
 					
 		var user = userRepository.getReferenceById(loggedUser.getId());
 		var course = courseRepository.getReferenceByName(data.courseName());

@@ -10,6 +10,8 @@ import com.harcanjo.forum.domain.user.UserUpdateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,6 +44,8 @@ public class Topic {
 	
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
+	
+	@Enumerated(EnumType.STRING)
 	private TopicStatus status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

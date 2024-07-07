@@ -83,7 +83,7 @@ public class UserController {
 		var user = repository.getReferenceById(data.id());
 		user.updateUserInformations(data);
 		
-		return  ResponseEntity.ok(new UserDetailsDTO(user));
+		return ResponseEntity.ok(new UserDetailsDTO(user));
 	}
 	
 	// Logical Deletion	

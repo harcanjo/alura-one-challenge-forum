@@ -8,4 +8,6 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
 
 	Page<Topic> findAllByActiveTrue(Pageable page);
 
+	boolean existsByTitleAndMessage(String topicTitle, String topicMessage);
+
 }

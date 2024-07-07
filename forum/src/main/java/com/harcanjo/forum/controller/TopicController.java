@@ -18,7 +18,7 @@ import com.harcanjo.forum.domain.topic.TopicCreationDTO;
 import com.harcanjo.forum.domain.topic.TopicDetailsDTO;
 import com.harcanjo.forum.domain.topic.TopicListDTO;
 import com.harcanjo.forum.domain.topic.TopicRepository;
-import com.harcanjo.forum.domain.topic.TopicService;
+import com.harcanjo.forum.domain.topic.TopicCreationService;
 import com.harcanjo.forum.domain.topic.TopicUpdateDTO;
 import com.harcanjo.forum.domain.user.User;
 
@@ -30,12 +30,11 @@ import jakarta.validation.Valid;
 public class TopicController {
 	
 	@Autowired
-	private TopicService topicService;
+	private TopicCreationService topicService;
 	
 	@Autowired
 	private TopicRepository repository;
 	
-	// TODO: all fields are required.
 	// TODO: duplicated title and messages are not allowed
 	@PostMapping
 	@Transactional
