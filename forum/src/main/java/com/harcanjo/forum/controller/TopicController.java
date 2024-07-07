@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.harcanjo.forum.domain.topic.TopicCreationDTO;
 import com.harcanjo.forum.domain.topic.TopicDetailsDTO;
+import com.harcanjo.forum.domain.topic.TopicListDTO;
+import com.harcanjo.forum.domain.topic.TopicRepository;
 import com.harcanjo.forum.domain.topic.TopicService;
 import com.harcanjo.forum.domain.user.User;
 import com.harcanjo.forum.domain.user.UserListDTO;
@@ -29,6 +31,11 @@ public class TopicController {
 	@Autowired
 	private TopicService topicService;
 	
+	@Autowired
+	private TopicRepository repository;
+	
+	// TODO: all fields are required.
+	// TODO: duplicated title and messages are not allowed
 	@PostMapping
 	@Transactional
 	public ResponseEntity<TopicDetailsDTO> createTopic(@RequestBody @Valid TopicCreationDTO data, @AuthenticationPrincipal User loggedUser) {
@@ -41,5 +48,14 @@ public class TopicController {
 	public ResponseEntity<Void> deleteTopic(@PathVariable Long id, @AuthenticationPrincipal User loggedUser) {
 		topicService.deleteTopic(id, loggedUser);
 		return ResponseEntity.noContent().build();
+	}
+	
+	// TODO: 10 first results, ordered by created date in order ASC
+	// TODO: list by name and year
+	// @PageableDefault
+	@GetMapping
+	public ResponseEntity<Page<TopicListDTO>> showTopicList(Pageable page){
+		var pageList =  repository.findAllByActiveTrue(page).map(TopicListDTO::new);
+		return ResponseEntity.ok(pageList);
 	}
 }
