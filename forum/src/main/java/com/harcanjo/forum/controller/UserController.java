@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.harcanjo.forum.domain.profile.Profile;
-import com.harcanjo.forum.domain.profile.ProfileRepository;
 import com.harcanjo.forum.domain.user.User;
 import com.harcanjo.forum.domain.user.UserDetailsDTO;
 import com.harcanjo.forum.domain.user.UserListDTO;
@@ -68,19 +65,10 @@ public class UserController {
 		return ResponseEntity.ok(pageList);
 	}
 	
-	// TODO: check methods that need to get logged user
-//	@GetMapping
-//	public ResponseEntity<Page<UserListDTO>> showUserList(Pageable page,@AuthenticationPrincipal User loggedUser){
-//		System.out.println("Logged user: " + loggedUser.getEmail() + ", with ID: " + loggedUser.getId());
-//		
-//		var pageList =  repository.findAllByActiveTrue(page).map(UserListDTO::new);
-//		return ResponseEntity.ok(pageList);
-//	}
-	
-	@PutMapping
+	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<UserDetailsDTO> updateUser(@RequestBody @Valid UserUpdateDTO data) {
-		var user = repository.getReferenceById(data.id());
+	public ResponseEntity<UserDetailsDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO data) {
+		var user = repository.getReferenceById(id);
 		user.updateUserInformations(data);
 		
 		return ResponseEntity.ok(new UserDetailsDTO(user));

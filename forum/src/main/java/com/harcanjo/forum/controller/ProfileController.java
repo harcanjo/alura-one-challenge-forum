@@ -48,10 +48,10 @@ public class ProfileController {
 		return ResponseEntity.ok(pageList);
 	}
 	
-	@PutMapping
+	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<ProfileDetailsDTO> updateProfile(@RequestBody @Valid ProfileUpdateDTO data) {
-		var profile = repository.getReferenceById(data.id());
+	public ResponseEntity<ProfileDetailsDTO> updateProfile(@PathVariable Long id, @RequestBody @Valid ProfileUpdateDTO data) {
+		var profile = repository.getReferenceById(id);
 		profile.updateProfileInformations(data);
 		
 		return ResponseEntity.ok(new ProfileDetailsDTO(profile));

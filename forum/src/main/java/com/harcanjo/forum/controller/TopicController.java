@@ -64,8 +64,6 @@ public class TopicController {
 		return ResponseEntity.ok(dto);
 	}
 	
-	// TODO: Same steps as creating topic
-	// check if topic .isPresent()
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<TopicDetailsDTO> updateTopic(@PathVariable Long id, @RequestBody @Valid TopicUpdateDTO data, @AuthenticationPrincipal User loggedUser) {

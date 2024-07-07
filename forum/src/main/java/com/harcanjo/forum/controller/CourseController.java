@@ -47,10 +47,10 @@ public class CourseController {
 		return ResponseEntity.ok(pageList);
 	}
 	
-	@PutMapping
+	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<CourseDetailsDTO> updateCourse(@RequestBody @Valid CourseUpdateDTO data) {
-		var course = repository.getReferenceById(data.id());
+	public ResponseEntity<CourseDetailsDTO> updateCourse(@PathVariable Long id, @RequestBody @Valid CourseUpdateDTO data) {
+		var course = repository.getReferenceById(id);
 		course.updateCourseInformations(data);
 		
 		return ResponseEntity.ok(new CourseDetailsDTO(course));

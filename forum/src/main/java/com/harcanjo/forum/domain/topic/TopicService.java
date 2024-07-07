@@ -12,8 +12,6 @@ import com.harcanjo.forum.domain.topic.validations.create.ValidatorTopicCreation
 import com.harcanjo.forum.domain.user.User;
 import com.harcanjo.forum.domain.user.UserRepository;
 
-import jakarta.validation.Valid;
-
 @Service
 public class TopicService {
 
