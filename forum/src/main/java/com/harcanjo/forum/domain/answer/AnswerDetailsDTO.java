@@ -13,6 +13,13 @@ public record AnswerDetailsDTO(
 		@JsonProperty("solution") Boolean topicSolution) {
 
 	public AnswerDetailsDTO(Answer answer) {
-		this(answer.getId(), answer.getMessage(), answer.getTopic().getMessage(), answer.getCreatedAt(), answer.getUser().getName(), answer.getTopicSolution());
+		this(
+				answer.getId(), 
+				answer.getMessage(), 
+				answer.getTopic().getMessage(), 
+				answer.getCreatedAt(), 
+				answer.getUser().getName(), 
+				answer.getTopicSolution()
+			);
 	}
 }

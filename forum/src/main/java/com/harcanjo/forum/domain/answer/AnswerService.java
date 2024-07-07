@@ -35,6 +35,8 @@ public class AnswerService {
 		var answer = new Answer(data, user, topic);
 		answerRepository.save(answer);
 		
+		System.out.println(answer);
+		
 		return new AnswerDetailsDTO(answer);
 	}
 }
