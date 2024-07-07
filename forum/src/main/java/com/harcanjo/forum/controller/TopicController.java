@@ -21,9 +21,6 @@ import com.harcanjo.forum.domain.topic.TopicRepository;
 import com.harcanjo.forum.domain.topic.TopicService;
 import com.harcanjo.forum.domain.topic.TopicUpdateDTO;
 import com.harcanjo.forum.domain.user.User;
-import com.harcanjo.forum.domain.user.UserDetailsDTO;
-import com.harcanjo.forum.domain.user.UserListDTO;
-import com.harcanjo.forum.domain.user.UserUpdateDTO;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -47,6 +44,9 @@ public class TopicController {
 		return ResponseEntity.ok(new TopicDetailsDTO(null, null, null, null, null, null, null));
 	}
 	
+	// TODO: check id in request
+	// TODO: check if topic exist in db .isPresent()
+	// TODO: use deleteById of JpaRepository
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Void> deleteTopic(@PathVariable Long id, @AuthenticationPrincipal User loggedUser) {
