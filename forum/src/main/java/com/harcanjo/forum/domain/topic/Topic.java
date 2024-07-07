@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.harcanjo.forum.domain.course.Course;
 import com.harcanjo.forum.domain.user.User;
+import com.harcanjo.forum.domain.user.UserUpdateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -68,5 +70,22 @@ public class Topic {
 	
 	public void inactivateTopic() {
 		this.active = false;		
+	}
+	
+	public void updateTopicInformations(@Valid TopicUpdateDTO data) {
+
+		// TODO: move to service
+		// Get the course if exists on the service
+//		if (data.courseName() != null) {
+//			this.course = data.courseName();
+//		}
+//		
+//		if (data.title() != null) {
+//			this.title = data.title();
+//		}
+//		
+//		if (data.message() != null) {
+//			this.message = data.message();
+//		}
 	}
 }

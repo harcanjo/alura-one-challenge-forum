@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +19,11 @@ import com.harcanjo.forum.domain.topic.TopicDetailsDTO;
 import com.harcanjo.forum.domain.topic.TopicListDTO;
 import com.harcanjo.forum.domain.topic.TopicRepository;
 import com.harcanjo.forum.domain.topic.TopicService;
+import com.harcanjo.forum.domain.topic.TopicUpdateDTO;
 import com.harcanjo.forum.domain.user.User;
 import com.harcanjo.forum.domain.user.UserDetailsDTO;
 import com.harcanjo.forum.domain.user.UserListDTO;
+import com.harcanjo.forum.domain.user.UserUpdateDTO;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -64,6 +67,17 @@ public class TopicController {
 	@GetMapping("/{id}")
 	public ResponseEntity<TopicDetailsDTO> showTopic(@PathVariable Long id) {
 		var topic = repository.getReferenceById(id);		
+		return ResponseEntity.ok(new TopicDetailsDTO(topic));
+	}
+	
+	// TODO: Same steps as creating topic
+	// check if topic .isPresent()
+	@PutMapping
+	@Transactional
+	public ResponseEntity<TopicDetailsDTO> updateTopic(@RequestBody @Valid TopicUpdateDTO data, @AuthenticationPrincipal User loggedUser) {
+		var topic = repository.getReferenceById(data.id());
+		topic.updateTopicInformations(data);
+		
 		return ResponseEntity.ok(new TopicDetailsDTO(topic));
 	}
 }
