@@ -19,6 +19,7 @@ import com.harcanjo.forum.domain.topic.TopicListDTO;
 import com.harcanjo.forum.domain.topic.TopicRepository;
 import com.harcanjo.forum.domain.topic.TopicService;
 import com.harcanjo.forum.domain.user.User;
+import com.harcanjo.forum.domain.user.UserDetailsDTO;
 import com.harcanjo.forum.domain.user.UserListDTO;
 
 import jakarta.transaction.Transactional;
@@ -57,5 +58,12 @@ public class TopicController {
 	public ResponseEntity<Page<TopicListDTO>> showTopicList(Pageable page){
 		var pageList =  repository.findAllByActiveTrue(page).map(TopicListDTO::new);
 		return ResponseEntity.ok(pageList);
+	}
+	
+	// TODO: verify if id was correctly informed
+	@GetMapping("/{id}")
+	public ResponseEntity<TopicDetailsDTO> showTopic(@PathVariable Long id) {
+		var topic = repository.getReferenceById(id);		
+		return ResponseEntity.ok(new TopicDetailsDTO(topic));
 	}
 }
