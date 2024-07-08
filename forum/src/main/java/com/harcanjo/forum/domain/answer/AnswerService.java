@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.harcanjo.forum.domain.ValidationException;
 import com.harcanjo.forum.domain.topic.TopicRepository;
+import com.harcanjo.forum.domain.topic.TopicStatus;
 import com.harcanjo.forum.domain.user.User;
 import com.harcanjo.forum.domain.user.UserRepository;
 
@@ -34,6 +35,9 @@ public class AnswerService {
 		var topic = topicRepository.getReferenceById(data.topicID());
 		var answer = new Answer(data, user, topic);
 		answerRepository.save(answer);
+		
+		topic.getAnswers().add(answer);
+		topic.setStatus(TopicStatus.ANSWERED);
 		
 		System.out.println(answer);
 		

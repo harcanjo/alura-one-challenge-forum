@@ -59,4 +59,9 @@ public class Answer {
 		this.active = true;
 	}
 
+	@Override
+	public String toString() {
+		return "Answer [id=" + id + ", message=" + message + ", createdAt=" + createdAt + ", user="
+				+ user + ", topicSolution=" + topicSolution + ", active=" + active + "]";
+	}
 }

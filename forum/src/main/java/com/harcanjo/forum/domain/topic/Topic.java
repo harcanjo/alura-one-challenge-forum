@@ -58,8 +58,8 @@ public class Topic {
 	private Boolean active;
 	
 	// TODO: create answers type
-	@OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
 	// @JoinColumn(name = "answer_id")
+	@OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
 	private List<Answer> answers;
 
 	public Topic(TopicCreationDTO data, User user, Course course) {
@@ -89,5 +89,16 @@ public class Topic {
 		if (data.message() != null) {
 			this.message = data.message();
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Topic [id=" + id + ", title=" + title + ", message=" + message + ", createdAt=" + createdAt
+				+ ", status=" + status + ", user=" + user + ", course=" + course + ", active=" + active + "]";
+	}
+	
+	public void addAnswers(Answer answer) {
+		answers.add(answer);
+	    answer.setTopic(this); // Set the bidirectional relationship
 	}
 }
