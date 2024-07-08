@@ -20,6 +20,7 @@ import com.harcanjo.forum.domain.topic.TopicListDTO;
 import com.harcanjo.forum.domain.topic.TopicRepository;
 import com.harcanjo.forum.domain.topic.TopicService;
 import com.harcanjo.forum.domain.topic.TopicUpdateDTO;
+import com.harcanjo.forum.domain.topic.TopicWithAnswersDTO;
 import com.harcanjo.forum.domain.user.User;
 
 import jakarta.transaction.Transactional;
@@ -58,9 +59,15 @@ public class TopicController {
 		return ResponseEntity.ok(pageList);
 	}
 
+//	@GetMapping("/{id}")
+//	public ResponseEntity<TopicDetailsDTO> showTopic(@PathVariable Long id) {
+//		var dto = topicService.showTopicByID(id);		
+//		return ResponseEntity.ok(dto);
+//	}
+	
 	@GetMapping("/{id}")
-	public ResponseEntity<TopicDetailsDTO> showTopic(@PathVariable Long id) {
-		var dto = topicService.showTopicByID(id);		
+	public ResponseEntity<TopicWithAnswersDTO> showTopic(@PathVariable Long id) {
+		var dto = topicService.getTopicById(id);		
 		return ResponseEntity.ok(dto);
 	}
 	

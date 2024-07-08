@@ -1,12 +1,15 @@
 package com.harcanjo.forum.domain.topic;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.harcanjo.forum.domain.ValidationException;
+import com.harcanjo.forum.domain.answer.Answer;
+import com.harcanjo.forum.domain.answer.AnswerToTopicDTO;
 import com.harcanjo.forum.domain.course.CourseRepository;
 import com.harcanjo.forum.domain.topic.validations.create.ValidatorTopicCreation;
 import com.harcanjo.forum.domain.user.User;
@@ -78,14 +81,30 @@ public class TopicService {
 		topicRepository.deleteById(id);
 	}	
 	
-	public TopicDetailsDTO showTopicByID(Long id) {
-		if(!topicRepository.existsById(id)) {
-			throw new ValidationException("Topic id entered does not exist");
-	    }		
+	// TODO: Only show topic
+//	public TopicDetailsDTO showTopicByID(Long id) {
+//		if(!topicRepository.existsById(id)) {
+//			throw new ValidationException("Topic id entered does not exist");
+//	    }		
+//		
+//		var topic = topicRepository.getReferenceById(id);
+//		
+//		return new TopicDetailsDTO(topic);
+//	}
+	
+	// TODO: Need refactor
+	public TopicWithAnswersDTO getTopicById(Long id) {
+		Topic topic = topicRepository.findById(id).orElseThrow(() -> new ValidationException("Topic id entered does not exist"));
 		
-		var topic = topicRepository.getReferenceById(id);
+		List<AnswerToTopicDTO> answerDTO = topic.getAnswers().stream()
+				.map(this::mapAnswerToTopicDTO)
+				.collect(Collectors.toList());
 		
-		return new TopicDetailsDTO(topic);
+		return new TopicWithAnswersDTO(topic.getId(), topic.getTitle(), topic.getMessage(), topic.getCreatedAt(), topic.getUser().getName(), topic.getStatus(), answerDTO);
+	}
+	
+	private AnswerToTopicDTO mapAnswerToTopicDTO(Answer answer) {
+		return new AnswerToTopicDTO(answer);
 	}
 	
 }
