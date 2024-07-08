@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.harcanjo.forum.domain.user.User;
+import com.harcanjo.forum.domain.user.UserCreationDTO;
 import com.harcanjo.forum.domain.user.UserDetailsDTO;
 import com.harcanjo.forum.domain.user.UserListDTO;
-import com.harcanjo.forum.domain.user.UserRegisterDTO;
 import com.harcanjo.forum.domain.user.UserRepository;
+import com.harcanjo.forum.domain.user.UserService;
 import com.harcanjo.forum.domain.user.UserUpdateDTO;
 
 import jakarta.transaction.Transactional;
@@ -30,33 +30,46 @@ import jakarta.validation.Valid;
 public class UserController {
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private UserRepository repository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+//	@PostMapping
+//	@Transactional
+//	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserRegisterDTO data, UriComponentsBuilder uriBuilder) {		
+//		String encryptedPassword = passwordEncoder.encode(data.password());		
+//		var user = new User(data, encryptedPassword);	
+//		
+//		// TODO: associate to a profile if its not created/informed in the registration
+////		if (data.profiles() != null && !data.profiles().isEmpty()) {
+////	        Profile specifiedProfile = profileRepository.findByName(data.profile.name())
+////	                .orElseThrow(() -> new IllegalArgumentException("Profile not found: " + data.profile.name()));
+////	        user.getProfiles().add(specifiedProfile);
+////	    } else {
+////	        Profile defaultProfile = profileRepository.findByName("New Student")
+////	                .orElseGet(() -> profileRepository.save(new profile("New Student")));
+////	        user.getProfiles().add(defaultProfile);
+////	    }
+//		
+//		repository.save(user);
+//		
+//		var uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
+//	
+//		return ResponseEntity.created(uri).body(new UserDetailsDTO(user));
+//	}
+	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserRegisterDTO data, UriComponentsBuilder uriBuilder) {		
-		String encryptedPassword = passwordEncoder.encode(data.password());		
-		var user = new User(data, encryptedPassword);	
+	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserCreationDTO data, UriComponentsBuilder uriBuilder) {		
+		var dto = userService.createUser(data);
 		
-		// TODO: associate to a profile if its not created/informed in the registration
-//		if (data.profiles() != null && !data.profiles().isEmpty()) {
-//	        Profile specifiedProfile = profileRepository.findByName(data.profile.name())
-//	                .orElseThrow(() -> new IllegalArgumentException("Profile not found: " + data.profile.name()));
-//	        user.getProfiles().add(specifiedProfile);
-//	    } else {
-//	        Profile defaultProfile = profileRepository.findByName("New Student")
-//	                .orElseGet(() -> profileRepository.save(new profile("New Student")));
-//	        user.getProfiles().add(defaultProfile);
-//	    }
-		
-		repository.save(user);
-		
-		var uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
+		var uri = uriBuilder.path("/user/{id}").buildAndExpand(dto.id()).toUri();
 	
-		return ResponseEntity.created(uri).body(new UserDetailsDTO(user));
+		return ResponseEntity.created(uri).body(dto);
 	}
 
 	@GetMapping
@@ -75,21 +88,21 @@ public class UserController {
 	}
 	
 	// Logical Deletion	
-	@DeleteMapping("/{id}")
-	@Transactional
-	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-		var user = repository.getReferenceById(id);
-		user.inactivateUser();
-		
-		return ResponseEntity.noContent().build();
-	}
-
-	// TODO: check the need of Deletion From DB or just logical deletion	
 //	@DeleteMapping("/{id}")
 //	@Transactional
-//	public void deleteUser(@PathVariable Long id) {
-//		repository.deleteById(id);
+//	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+//		var user = repository.getReferenceById(id);
+//		user.inactivateUser();
+//		
+//		return ResponseEntity.noContent().build();
 //	}
+
+	// TODO: check the need of Deletion From DB or just logical deletion	
+	@DeleteMapping("/{id}")
+	@Transactional
+	public void deleteUser(@PathVariable Long id) {
+		repository.deleteById(id);
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDetailsDTO> showUser(@PathVariable Long id) {

@@ -19,6 +19,7 @@ import com.harcanjo.forum.domain.profile.ProfileDetailsDTO;
 import com.harcanjo.forum.domain.profile.ProfileListDTO;
 import com.harcanjo.forum.domain.profile.ProfileRegisterDTO;
 import com.harcanjo.forum.domain.profile.ProfileRepository;
+import com.harcanjo.forum.domain.profile.ProfileService;
 import com.harcanjo.forum.domain.profile.ProfileUpdateDTO;
 
 import jakarta.transaction.Transactional;
@@ -27,6 +28,9 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/profiles")
 public class ProfileController {
+	
+	@Autowired
+	private ProfileService profileService;
 	
 	@Autowired
 	private ProfileRepository repository;
@@ -57,20 +61,22 @@ public class ProfileController {
 		return ResponseEntity.ok(new ProfileDetailsDTO(profile));
 	}
 
-	@DeleteMapping("/{id}")
-	@Transactional
-	public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
-		var profile = repository.getReferenceById(id);
-		profile.inactivateProfile();
-		
-		return ResponseEntity.noContent().build();
-	}	
-	
+	// Logical deletion
 //	@DeleteMapping("/{id}")
 //	@Transactional
-//	public void deleteProfile(@PathVariable Long id) {
-//		repository.deleteById(id);
-//	}
+//	public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
+//		var profile = repository.getReferenceById(id);
+//		profile.inactivateProfile();
+//		
+//		return ResponseEntity.noContent().build();
+//	}	
+	
+	@DeleteMapping("/{id}")
+	@Transactional
+	public void deleteProfile(@PathVariable Long id) {
+		profileService.deleteProfileById(id);
+		// repository.deleteById(id);
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ProfileDetailsDTO> showUser(@PathVariable Long id) {

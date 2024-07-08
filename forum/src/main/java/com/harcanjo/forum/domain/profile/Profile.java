@@ -1,6 +1,7 @@
 package com.harcanjo.forum.domain.profile;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.harcanjo.forum.domain.user.User;
 
@@ -33,10 +34,15 @@ public class Profile {
 	private Boolean active;
 	
 	@ManyToMany(mappedBy = "profiles")
-	private List<User> users;
+	private Set<User> users = new HashSet<>();
 	
 	public Profile(ProfileRegisterDTO data){
 		this.name = data.name();
+		this.active = true;
+	}
+	
+	public Profile(String name){
+		this.name = name;
 		this.active = true;
 	}
 

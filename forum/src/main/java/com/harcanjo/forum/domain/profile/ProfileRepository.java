@@ -7,4 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ProfileRepository extends JpaRepository<Profile, Long>{
 
 	Page<Profile> findAllByActiveTrue(Pageable page);
+
+	Profile findByName(String string);
+
+	Profile getReferenceByName(String string);
 }

@@ -1,8 +1,9 @@
 package com.harcanjo.forum.domain.user;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.harcanjo.forum.domain.profile.Profile;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,20 +54,28 @@ public class User implements UserDetails {
 	private Boolean active;
 
 	// TODO: add this relationship to Profile
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinTable(
         name = "user_profile",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "profile_id")
     )
-	private List<Profile> profiles;
+	private Set<Profile> profiles;
 
 	public User(UserRegisterDTO data, String passwordEncrypted) {
 		this.name = data.name();
 		this.email = data.email();
 		this.password = passwordEncrypted;
 		this.active = true;
-		this.profiles = new ArrayList<>();
+		this.profiles = new HashSet<>();
+	}
+	
+	public User(UserCreationDTO data, String passwordEncrypted) {
+		this.name = data.name();
+		this.email = data.email();
+		this.password = passwordEncrypted;
+		this.active = true;
+		this.profiles = new HashSet<>();
 	}
 
 	public void updateUserInformations(@Valid UserUpdateDTO data) {
