@@ -35,33 +35,7 @@ public class UserController {
 	@Autowired
 	private UserRepository repository;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-//	@PostMapping
-//	@Transactional
-//	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserRegisterDTO data, UriComponentsBuilder uriBuilder) {		
-//		String encryptedPassword = passwordEncoder.encode(data.password());		
-//		var user = new User(data, encryptedPassword);	
-//		
-//		// TODO: associate to a profile if its not created/informed in the registration
-////		if (data.profiles() != null && !data.profiles().isEmpty()) {
-////	        Profile specifiedProfile = profileRepository.findByName(data.profile.name())
-////	                .orElseThrow(() -> new IllegalArgumentException("Profile not found: " + data.profile.name()));
-////	        user.getProfiles().add(specifiedProfile);
-////	    } else {
-////	        Profile defaultProfile = profileRepository.findByName("New Student")
-////	                .orElseGet(() -> profileRepository.save(new profile("New Student")));
-////	        user.getProfiles().add(defaultProfile);
-////	    }
-//		
-//		repository.save(user);
-//		
-//		var uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
-//	
-//		return ResponseEntity.created(uri).body(new UserDetailsDTO(user));
-//	}
-	
+	// TODO: Add profiles list as answers in topic
 	@PostMapping
 	@Transactional
 	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserCreationDTO data, UriComponentsBuilder uriBuilder) {		

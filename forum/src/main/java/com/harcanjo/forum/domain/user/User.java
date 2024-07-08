@@ -62,14 +62,6 @@ public class User implements UserDetails {
     )
 	private Set<Profile> profiles;
 
-	public User(UserRegisterDTO data, String passwordEncrypted) {
-		this.name = data.name();
-		this.email = data.email();
-		this.password = passwordEncrypted;
-		this.active = true;
-		this.profiles = new HashSet<>();
-	}
-	
 	public User(UserCreationDTO data, String passwordEncrypted) {
 		this.name = data.name();
 		this.email = data.email();
