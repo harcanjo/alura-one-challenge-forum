@@ -39,7 +39,8 @@ public class UserService {
 		return new UserDetailsDTO(user);
 	}
 	
-	// TODO: Needs refactor
+	// TODO: Needs refactor, needs to be able to do with more than one profile
+	// comma separated strings, split, trim
 	public void addProfileToUser(@Valid UserCreationDTO data, Long userId) {
 		if(data.profiles() != null) {
 			System.out.println("User profile: " + data.profiles());

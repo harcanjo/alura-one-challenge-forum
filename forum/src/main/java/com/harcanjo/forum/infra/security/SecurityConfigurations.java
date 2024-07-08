@@ -29,7 +29,16 @@ public class SecurityConfigurations {
 	        .authorizeHttpRequests(req -> {
 	            req.requestMatchers("/auth").permitAll();
 	            req.requestMatchers(HttpMethod.POST, "/users").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/topics").permitAll();// req.requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
+	            req.requestMatchers(HttpMethod.GET, "/users").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/users/{id}").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/topics").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/topics/{id}").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/answers").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/answers/{id}").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/courses").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/courses/{id}").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/profiles").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/profiles/{id}").permitAll();// req.requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
 	            req.anyRequest().authenticated();
 	        })
 	        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
