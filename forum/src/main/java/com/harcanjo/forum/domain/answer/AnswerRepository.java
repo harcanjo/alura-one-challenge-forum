@@ -8,4 +8,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
 	Page<Answer> findAllByActiveTrue(Pageable page);
 
+	boolean existsByTopicIdAndMessage(Long topicId, String answerMessage);
+
 }

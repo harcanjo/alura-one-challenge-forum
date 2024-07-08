@@ -9,7 +9,7 @@ public record AnswerCreationDTO(
 		@NotBlank
 		String message,
 		@NotNull
-		@JsonAlias("topic_id")Long topicID		
+		@JsonAlias("topic_id")Long topicId		
 		) {
 
 }
