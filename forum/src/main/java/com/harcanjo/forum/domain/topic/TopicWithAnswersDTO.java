@@ -15,4 +15,16 @@ public record TopicWithAnswersDTO(
 		TopicStatus status,
 		List<AnswerToTopicDTO> answers
 		) {
+	
+	public TopicWithAnswersDTO(Topic topic, List<AnswerToTopicDTO> answerDTO) {
+		this(
+				topic.getId(), 
+				topic.getTitle(),
+				topic.getMessage(),
+				topic.getCreatedAt(), 
+				topic.getUser().getName(), 
+				topic.getStatus(),
+				answerDTO
+			);
+	}
 }

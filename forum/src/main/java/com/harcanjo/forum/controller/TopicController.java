@@ -59,12 +59,14 @@ public class TopicController {
 		return ResponseEntity.ok(pageList);
 	}
 
+	// TODO: Only show topic
 //	@GetMapping("/{id}")
 //	public ResponseEntity<TopicDetailsDTO> showTopic(@PathVariable Long id) {
 //		var dto = topicService.showTopicByID(id);		
 //		return ResponseEntity.ok(dto);
 //	}
 	
+	// Show topic with answer list
 	@GetMapping("/{id}")
 	public ResponseEntity<TopicWithAnswersDTO> showTopic(@PathVariable Long id) {
 		var dto = topicService.getTopicById(id);		

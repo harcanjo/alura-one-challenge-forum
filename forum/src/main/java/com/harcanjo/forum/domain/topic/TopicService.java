@@ -92,7 +92,6 @@ public class TopicService {
 //		return new TopicDetailsDTO(topic);
 //	}
 	
-	// TODO: Need refactor
 	public TopicWithAnswersDTO getTopicById(Long id) {
 		Topic topic = topicRepository.findById(id).orElseThrow(() -> new ValidationException("Topic id entered does not exist"));
 		
@@ -100,7 +99,7 @@ public class TopicService {
 				.map(this::mapAnswerToTopicDTO)
 				.collect(Collectors.toList());
 		
-		return new TopicWithAnswersDTO(topic.getId(), topic.getTitle(), topic.getMessage(), topic.getCreatedAt(), topic.getUser().getName(), topic.getStatus(), answerDTO);
+		return new TopicWithAnswersDTO(topic, answerDTO);
 	}
 	
 	private AnswerToTopicDTO mapAnswerToTopicDTO(Answer answer) {

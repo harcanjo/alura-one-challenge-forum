@@ -39,8 +39,6 @@ public class AnswerService {
 		topic.getAnswers().add(answer);
 		topic.setStatus(TopicStatus.ANSWERED);
 		
-		System.out.println(answer);
-		
 		return new AnswerDetailsDTO(answer);
 	}
 }

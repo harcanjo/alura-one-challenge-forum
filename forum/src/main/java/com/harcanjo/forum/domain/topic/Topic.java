@@ -8,6 +8,7 @@ import com.harcanjo.forum.domain.answer.Answer;
 import com.harcanjo.forum.domain.course.Course;
 import com.harcanjo.forum.domain.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -59,7 +60,7 @@ public class Topic {
 	
 	// TODO: create answers type
 	// @JoinColumn(name = "answer_id")
-	@OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "topic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Answer> answers;
 
 	public Topic(TopicCreationDTO data, User user, Course course) {
@@ -94,7 +95,7 @@ public class Topic {
 	@Override
 	public String toString() {
 		return "Topic [id=" + id + ", title=" + title + ", message=" + message + ", createdAt=" + createdAt
-				+ ", status=" + status + ", user=" + user + ", course=" + course + ", active=" + active + "]";
+				+ ", status=" + status + ", user=" + user + ", course=" + course + ", active=" + active + ", answers=" + answers + "]";
 	}
 	
 	public void addAnswers(Answer answer) {
