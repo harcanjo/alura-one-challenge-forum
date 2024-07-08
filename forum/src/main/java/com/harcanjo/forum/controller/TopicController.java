@@ -52,7 +52,7 @@ public class TopicController {
 	
 	// TODO: 10 first results, ordered by created date in order ASC
 	// TODO: list by name and year
-	// @PageableDefault
+	// TODO: @PageableDefault
 	@GetMapping
 	public ResponseEntity<Page<TopicListDTO>> showTopicList(Pageable page){
 		var pageList =  repository.findAllByActiveTrue(page).map(TopicListDTO::new);

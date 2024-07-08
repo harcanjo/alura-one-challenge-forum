@@ -81,7 +81,7 @@ public class TopicService {
 		topicRepository.deleteById(id);
 	}	
 	
-	// TODO: Only show topic
+	// TODO: detail only topic needs...
 //	public TopicDetailsDTO showTopicByID(Long id) {
 //		if(!topicRepository.existsById(id)) {
 //			throw new ValidationException("Topic id entered does not exist");

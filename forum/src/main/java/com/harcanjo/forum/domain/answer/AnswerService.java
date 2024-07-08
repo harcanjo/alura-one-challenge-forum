@@ -41,4 +41,42 @@ public class AnswerService {
 		
 		return new AnswerDetailsDTO(answer);
 	}
+
+	public void deleteAnswer(Long id, User loggedUser) {
+		if(!answerRepository.existsById(id)) {
+			throw new ValidationException("Answer id entered does not exist");
+	    }		
+		
+		var answer = answerRepository.getReferenceById(id);
+		
+		if (answer.getUser().getId() != loggedUser.getId()) {
+			throw new ValidationException("This answer was not created by you (logged in user)");
+		}
+		
+		// Logical Deletion
+		// answer.inactivateAnswer();
+		
+		answerRepository.deleteById(id);		
+	}
+
+	public AnswerDetailsDTO getAnswerById(Long id) {
+		return new AnswerDetailsDTO(answerRepository.getReferenceById(id));
+	}
+
+	public AnswerDetailsDTO updateAnswer(Long id, @Valid AnswerUpdateDTO data, User loggedUser) {
+		if (!answerRepository.existsById(id)) {
+			throw new ValidationException("Answer id entered does not exist");
+		}
+		
+		if (answerRepository.getReferenceById(id).getUser() != userRepository.getReferenceById(loggedUser.getId())) {
+			throw new ValidationException("Answer was created by another user");
+		}
+		
+		var answer = answerRepository.getReferenceById(id);
+		var topic = topicRepository.getReferenceById(data.topicID());
+		
+		answer.updateAnswerInformations(data, topic);
+		
+		return new AnswerDetailsDTO(answer);
+	}
 }

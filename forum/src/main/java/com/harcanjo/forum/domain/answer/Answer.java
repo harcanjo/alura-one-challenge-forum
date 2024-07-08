@@ -58,6 +58,24 @@ public class Answer {
 		this.topicSolution = false;
 		this.active = true;
 	}
+	
+	public void inactivateAnswer() {
+		this.active = false;		
+	}
+	
+	public void updateAnswerInformations(@Valid AnswerUpdateDTO data, Topic topic) {
+		if (data.message() != null) {
+			this.message = data.message();
+		}
+		
+		if (topic != null) {
+			this.topic = topic;
+		}
+		
+		if (data.topicSolution() != null) {
+			this.topicSolution = data.topicSolution();
+		}
+	}
 
 	@Override
 	public String toString() {
