@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.harcanjo.forum.domain.answer.AnswerCreationDTO;
 import com.harcanjo.forum.domain.answer.AnswerDetailsDTO;
@@ -37,9 +38,13 @@ public class AnswerController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<AnswerDetailsDTO> addAnswer(@RequestBody @Valid AnswerCreationDTO data, @AuthenticationPrincipal User loggedUser) {
-		answerService.createAnswer(data, loggedUser);		
-		return ResponseEntity.ok(new AnswerDetailsDTO(null, null, null, null, null, null));
+	public ResponseEntity<AnswerDetailsDTO> addAnswer(@RequestBody @Valid AnswerCreationDTO data, @AuthenticationPrincipal User loggedUser, UriComponentsBuilder uriBuilder) {
+		var dto = answerService.createAnswer(data, loggedUser);		
+		
+		var uri = uriBuilder.path("/answers/{id}").buildAndExpand(dto.id()).toUri();
+		
+		//return ResponseEntity.ok(dto);
+		return ResponseEntity.created(uri).body(dto);
 	}
 	
 	@DeleteMapping("/{id}")

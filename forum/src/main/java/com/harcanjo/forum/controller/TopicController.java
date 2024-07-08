@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.harcanjo.forum.domain.topic.TopicCreationDTO;
 import com.harcanjo.forum.domain.topic.TopicDetailsDTO;
@@ -38,9 +39,13 @@ public class TopicController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<TopicDetailsDTO> createTopic(@RequestBody @Valid TopicCreationDTO data, @AuthenticationPrincipal User loggedUser) {
-		var dto = topicService.createTopic(data, loggedUser);		
-		return ResponseEntity.ok(dto);
+	public ResponseEntity<TopicDetailsDTO> createTopic(@RequestBody @Valid TopicCreationDTO data, @AuthenticationPrincipal User loggedUser, UriComponentsBuilder uriBuilder) {
+		var dto = topicService.createTopic(data, loggedUser);
+		
+		var uri = uriBuilder.path("/topics/{id}").buildAndExpand(dto.id()).toUri();
+		
+		//return ResponseEntity.ok(dto);
+		return ResponseEntity.created(uri).body(dto);
 	}
 
 	@DeleteMapping("/{id}")
