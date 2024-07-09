@@ -6,8 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record AnswerListDTO(
 		Long id, 
-		String message, 
-		String topic,
+		String message,		 
+		@JsonProperty("topic_id")Long topicId,
+		@JsonProperty("topic_message")String topicMessage,
 		@JsonProperty("creation") LocalDateTime createdAt, 
 		String user, 
 		@JsonProperty("solution") Boolean topicSolution) {
@@ -16,6 +17,7 @@ public record AnswerListDTO(
 		this(
 				answer.getId(), 
 				answer.getMessage(),
+				answer.getTopic().getId(),
 				answer.getTopic().getMessage(),
 				answer.getCreatedAt(), 
 				answer.getUser().getName(), 
