@@ -56,8 +56,7 @@ public class UserController {
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<UserDetailsDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO data, @AuthenticationPrincipal User loggedUser) {
-		var dto = userService.updateUser(id, data, loggedUser);
-		
+		var dto = userService.updateUser(id, data, loggedUser);		
 		return ResponseEntity.ok(dto);
 	}
 	
@@ -80,8 +79,8 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDetailsDTO> showUser(@PathVariable Long id) {
-		var user = repository.getReferenceById(id);		
-		return ResponseEntity.ok(new UserDetailsDTO(user));
+		var dto = userService.getUserById(id);	
+		return ResponseEntity.ok(dto);
 	}
 	
 }

@@ -74,10 +74,12 @@ public class User implements UserDetails {
 		if (data.name() != null) {
 			this.name = data.name();
 		}
-		
-		if (data.password() != null) {
-			this.password = data.password();
-		}
+	}
+	
+	public void updateUserPassword(String newPassword) {
+		if (newPassword != null) {
+			this.password = newPassword;
+		}		
 	}
 
 	public void inactivateUser() {
