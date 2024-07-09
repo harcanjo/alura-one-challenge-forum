@@ -28,17 +28,13 @@ public class SecurityConfigurations {
 	        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	        .authorizeHttpRequests(req -> {
 	            req.requestMatchers("/auth").permitAll();
+	            req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
 	            req.requestMatchers(HttpMethod.POST, "/users").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/users").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/users/{id}").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/topics").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/topics/{id}").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/answers").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/answers/{id}").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/courses").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/courses/{id}").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/profiles").permitAll();
-	            req.requestMatchers(HttpMethod.GET, "/profiles/{id}").permitAll();// req.requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
+	            req.requestMatchers(HttpMethod.GET, "/users", "/users/{id}").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/topics", "/topics/{id}").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/answers", "/answers/{id}").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/courses", "/courses/{id}").permitAll();
+	            req.requestMatchers(HttpMethod.GET, "/profiles", "/profiles/{id}").permitAll();// req.requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
 	            req.anyRequest().authenticated();
 	        })
 	        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

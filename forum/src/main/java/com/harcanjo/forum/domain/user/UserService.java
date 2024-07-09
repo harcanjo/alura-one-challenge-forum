@@ -83,7 +83,7 @@ public class UserService {
 		
 		var user = userRepository.getReferenceById(id);
 		
-		if(!data.profiles().isBlank()) {
+		if(data.profiles() != null) {
 			user.getProfiles().clear();
 			
 			String[] profileNames = data.profiles().trim().split("\\s*,\\s*");
@@ -103,7 +103,7 @@ public class UserService {
 		    }
 		}
 		
-		if(!data.password().isBlank()) {
+		if(data.password() != null) {
 			var newPassword = passwordEncoder.encode(data.password());	
 			System.out.println("Tem senha: " + newPassword);
 			user.updateUserPassword(newPassword);

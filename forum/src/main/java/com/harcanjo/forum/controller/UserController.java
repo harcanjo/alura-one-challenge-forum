@@ -23,6 +23,7 @@ import com.harcanjo.forum.domain.user.UserRepository;
 import com.harcanjo.forum.domain.user.UserService;
 import com.harcanjo.forum.domain.user.UserUpdateDTO;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -36,9 +37,9 @@ public class UserController {
 	@Autowired
 	private UserRepository repository;
 	
-	// TODO: Add profiles list as answers in topic
 	@PostMapping
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<UserDetailsDTO> addUser(@RequestBody @Valid UserCreationDTO data, UriComponentsBuilder uriBuilder) {		
 		var dto = userService.createUser(data);
 		
@@ -55,6 +56,7 @@ public class UserController {
 	
 	@PutMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<UserDetailsDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO data, @AuthenticationPrincipal User loggedUser) {
 		var dto = userService.updateUser(id, data, loggedUser);		
 		return ResponseEntity.ok(dto);
@@ -73,6 +75,7 @@ public class UserController {
 	// TODO: check the need of Deletion From DB or just logical deletion	
 	@DeleteMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public void deleteUser(@PathVariable Long id) {
 		repository.deleteById(id);
 	}

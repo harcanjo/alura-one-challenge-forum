@@ -22,6 +22,7 @@ import com.harcanjo.forum.domain.profile.ProfileRepository;
 import com.harcanjo.forum.domain.profile.ProfileService;
 import com.harcanjo.forum.domain.profile.ProfileUpdateDTO;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -37,6 +38,7 @@ public class ProfileController {
 	
 	@PostMapping
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<ProfileDetailsDTO> addProfile(@RequestBody @Valid ProfileRegisterDTO data, UriComponentsBuilder uriBuilder) {
 		var profile = new Profile(data);
 		repository.save(profile);
@@ -54,6 +56,7 @@ public class ProfileController {
 	
 	@PutMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<ProfileDetailsDTO> updateProfile(@PathVariable Long id, @RequestBody @Valid ProfileUpdateDTO data) {
 		var profile = repository.getReferenceById(id);
 		profile.updateProfileInformations(data);
@@ -73,6 +76,7 @@ public class ProfileController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public void deleteProfile(@PathVariable Long id) {
 		profileService.deleteProfileById(id);
 		// repository.deleteById(id);

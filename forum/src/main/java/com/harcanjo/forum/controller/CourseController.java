@@ -21,6 +21,7 @@ import com.harcanjo.forum.domain.course.CourseRegisterDTO;
 import com.harcanjo.forum.domain.course.CourseRepository;
 import com.harcanjo.forum.domain.course.CourseUpdateDTO;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -33,6 +34,7 @@ public class CourseController {
 	
 	@PostMapping
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<CourseDetailsDTO> addCourse(@RequestBody @Valid CourseRegisterDTO data, UriComponentsBuilder uriBuilder) {
 		var course = new Course(data);
 		repository.save(course);
@@ -49,6 +51,7 @@ public class CourseController {
 	
 	@PutMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<CourseDetailsDTO> updateCourse(@PathVariable Long id, @RequestBody @Valid CourseUpdateDTO data) {
 		var course = repository.getReferenceById(id);
 		course.updateCourseInformations(data);
@@ -58,6 +61,7 @@ public class CourseController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
 		var course = repository.getReferenceById(id);
 		course.inactivateCourse();

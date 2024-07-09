@@ -23,6 +23,7 @@ import com.harcanjo.forum.domain.answer.AnswerService;
 import com.harcanjo.forum.domain.answer.AnswerUpdateDTO;
 import com.harcanjo.forum.domain.user.User;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -38,6 +39,7 @@ public class AnswerController {
 
 	@PostMapping
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<AnswerDetailsDTO> addAnswer(@RequestBody @Valid AnswerCreationDTO data, @AuthenticationPrincipal User loggedUser, UriComponentsBuilder uriBuilder) {
 		var dto = answerService.createAnswer(data, loggedUser);		
 		
@@ -49,6 +51,7 @@ public class AnswerController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<Void> deleteAnswer(@PathVariable Long id, @AuthenticationPrincipal User loggedUser) {
 		answerService.deleteAnswer(id, loggedUser);
 		return ResponseEntity.noContent().build();
@@ -69,6 +72,7 @@ public class AnswerController {
 	
 	@PutMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<AnswerDetailsDTO> updateAnswer(@PathVariable Long id, @RequestBody @Valid AnswerUpdateDTO data, @AuthenticationPrincipal User loggedUser) {
 		var dto = answerService.updateAnswer(id, data, loggedUser);		
 		return ResponseEntity.ok(dto);

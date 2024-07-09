@@ -26,6 +26,7 @@ import com.harcanjo.forum.domain.topic.TopicUpdateDTO;
 import com.harcanjo.forum.domain.topic.TopicWithAnswersDTO;
 import com.harcanjo.forum.domain.user.User;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -41,6 +42,7 @@ public class TopicController {
 	
 	@PostMapping
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<TopicDetailsDTO> createTopic(@RequestBody @Valid TopicCreationDTO data, @AuthenticationPrincipal User loggedUser, UriComponentsBuilder uriBuilder) {
 		var dto = topicService.createTopic(data, loggedUser);
 		
@@ -52,6 +54,7 @@ public class TopicController {
 
 	@DeleteMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<Void> deleteTopic(@PathVariable Long id, @AuthenticationPrincipal User loggedUser) {
 		topicService.deleteTopic(id, loggedUser);
 		return ResponseEntity.noContent().build();
@@ -85,6 +88,7 @@ public class TopicController {
 	
 	@PutMapping("/{id}")
 	@Transactional
+	@SecurityRequirement(name = "bearer-key")
 	public ResponseEntity<TopicDetailsDTO> updateTopic(@PathVariable Long id, @RequestBody @Valid TopicUpdateDTO data, @AuthenticationPrincipal User loggedUser) {
 		var dto = topicService.updateTopic(id, data, loggedUser);		
 		return ResponseEntity.ok(dto);
