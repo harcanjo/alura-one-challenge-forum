@@ -35,8 +35,39 @@ In summary, our objective with this challenge is to implement a REST API with th
 
 The API entities were developed following the challenge description an business logic.
 
+We have the following entities and endpoints 
+- User: /users
+- Profile: /profiles
+- Course: /courses
+- Topic: /topics
+- Answer: /answers
+
 The Database scheme is described in the image below.
 ![Forum Hub database diagram](./docs/diagrama_banco_de_dados_forumhub.png)
+
+## How to use this 
+
+- Clone this repository: *https* [https://github.com/harcanjo/alura-one-challenge-forum.git](https://github.com/harcanjo/alura-one-challenge-forum.git)
+- Create a MySQL database with the name: forum-api.
+    - Define a database url enviroment variable: DATABASE_URL
+    - Define a database username enviroment variable: DATABASE_USERNAME
+    - Define a database password enviroment variable: DATABASE_PASSWORD
+- Run this project from your IDE/text editor with spring boot support.
+- Use your favorite rest client to check the endpoints or use the spring doc swagger ui that we have added.
+    - Swagger UI: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+    - JSON version: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+- Your first request should be to register your user.
+- Register a user with a post request at /users.
+- Authenticate your user to generate JWT bearer token at /auth.
+- Add this token on the header of your transactional api requests (post/put/delete).
+- Create some users, profiles, courses, topics and answers.
+- List your data with get or get by id requests and try to edit, delete users, topics and answers.
+- You can only edit or delete the users that you are authenticated with the same credentials.
+- You can only edit or delete the topics if you are authenticated with the same user you used to create.
+- You can only edit or delete the answers if you are authenticated with the same user you used to create.
+- Some optional and extra challenge tasks might be buggy at this point. But some update are coming...
+
+## API Endpoints
 
 ### Authentication
 To use transactional endpoints you must be autenticated with a JWT Bearer Token. To generate the token, go to /auth endpoint and put your credentials. To Register go to /users
