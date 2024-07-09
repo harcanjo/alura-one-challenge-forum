@@ -1,6 +1,7 @@
 package com.harcanjo.forum.domain.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -67,5 +68,19 @@ public class UserService {
 		
 		user.getProfiles().add(defaultProfile);
 		userRepository.save(user);
+	}
+	
+	// TODO: Show password withou encoding
+	// TODO: When changing profiles, delete the old ones and add the new ones
+	public UserDetailsDTO updateUser(Long id, UserUpdateDTO data, @AuthenticationPrincipal User loggedUser) {
+		if(userRepository.getReferenceById(id) != userRepository.getReferenceById(loggedUser.getId())) {
+			throw new ValidationException("You can't edit other user");
+		}
+		
+		var user = userRepository.getReferenceById(id);
+		
+		user.updateUserInformations(data);	
+		
+		return new UserDetailsDTO(user);
 	}
 }
