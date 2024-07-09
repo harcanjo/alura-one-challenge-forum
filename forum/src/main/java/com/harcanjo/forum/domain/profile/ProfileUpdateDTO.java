@@ -1,10 +1,9 @@
 package com.harcanjo.forum.domain.profile;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record ProfileUpdateDTO(
-		@NotNull
-		Long id,
+		@NotBlank
 		String name
 		) {
 
