@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.harcanjo.forum.domain.ValidationException;
 import com.harcanjo.forum.domain.answer.validations.create.ValidatorAnswerCreation;
+import com.harcanjo.forum.domain.topic.Topic;
 import com.harcanjo.forum.domain.topic.TopicRepository;
 import com.harcanjo.forum.domain.topic.TopicStatus;
 import com.harcanjo.forum.domain.user.User;
@@ -49,6 +50,14 @@ public class AnswerService {
 		return new AnswerDetailsDTO(answer);
 	}
 
+	public void checkIfTopicHasAnswers(Topic topic) {
+		int topicAnswers = topic.getAnswers().size();
+		if(topicAnswers <= 1) {
+			topic.setStatus(TopicStatus.NOT_ANSWERED);
+		}
+	}
+	
+	// TODO: change topic status to NOT_ANSWERED if answers is ZERO
 	public void deleteAnswer(Long id, User loggedUser) {
 		if(!answerRepository.existsById(id)) {
 			throw new ValidationException("Answer id entered does not exist");
@@ -60,10 +69,13 @@ public class AnswerService {
 			throw new ValidationException("This answer was not created by you (logged in user)");
 		}
 		
+//		Topic topic = topicRepository.getReferenceById(answer.getTopic().getId());
+//		checkIfTopicHasAnswers(topic);		
+		
 		// Logical Deletion
 		// answer.inactivateAnswer();
 		
-		answerRepository.deleteById(id);		
+		answerRepository.deleteById(id);
 	}
 
 	public AnswerDetailsDTO getAnswerById(Long id) {

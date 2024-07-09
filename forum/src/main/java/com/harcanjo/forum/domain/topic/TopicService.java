@@ -93,6 +93,7 @@ public class TopicService {
 //	}
 	
 	public TopicWithAnswersDTO getTopicById(Long id) {
+		
 		Topic topic = topicRepository.findById(id).orElseThrow(() -> new ValidationException("Topic id entered does not exist"));
 		
 		List<AnswerToTopicDTO> answerDTO = topic.getAnswers().stream()

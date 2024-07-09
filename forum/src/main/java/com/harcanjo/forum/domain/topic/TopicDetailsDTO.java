@@ -4,13 +4,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.harcanjo.forum.domain.answer.AnswerDetailsDTO;
 
 public record TopicDetailsDTO(
 		Long id, 
 		String title, 
 		String message, 
-		LocalDateTime createdAt, 
+		@JsonProperty("created_at")LocalDateTime createdAt, 
 		String user, 
 		TopicStatus status, 
 		List<AnswerDetailsDTO> answers) {

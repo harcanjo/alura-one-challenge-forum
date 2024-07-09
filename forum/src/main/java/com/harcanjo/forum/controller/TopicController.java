@@ -3,6 +3,8 @@ package com.harcanjo.forum.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,11 +57,14 @@ public class TopicController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	// TODO: 10 first results, ordered by created date in order ASC
-	// TODO: list by name and year
-	// TODO: @PageableDefault
 	@GetMapping
 	public ResponseEntity<Page<TopicListDTO>> showTopicList(Pageable page){
+		var pageList =  repository.findAllByActiveTrue(page).map(TopicListDTO::new);
+		return ResponseEntity.ok(pageList);
+	}
+	
+	@GetMapping("/first-topics")
+	public ResponseEntity<Page<TopicListDTO>> showFirstTopicList(@PageableDefault(size = 10, direction = Sort.Direction.ASC) Pageable page){
 		var pageList =  repository.findAllByActiveTrue(page).map(TopicListDTO::new);
 		return ResponseEntity.ok(pageList);
 	}

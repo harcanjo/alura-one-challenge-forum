@@ -10,9 +10,10 @@ public record TopicWithAnswersDTO(
 		Long id, 
 		String title, 
 		String message, 
-		@JsonProperty("creation") LocalDateTime createdAt, 
-		String user, 
+		@JsonProperty("created_at") LocalDateTime createdAt, 
 		TopicStatus status,
+		@JsonProperty("user_name") String userName,
+		@JsonProperty("course_name") String courseName,
 		List<AnswerToTopicDTO> answers
 		) {
 	
@@ -22,8 +23,9 @@ public record TopicWithAnswersDTO(
 				topic.getTitle(),
 				topic.getMessage(),
 				topic.getCreatedAt(), 
-				topic.getUser().getName(), 
 				topic.getStatus(),
+				topic.getUser().getName(),
+				topic.getCourse().getName(),
 				answerDTO
 			);
 	}
