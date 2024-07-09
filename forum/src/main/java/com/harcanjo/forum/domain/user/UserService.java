@@ -9,9 +9,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.harcanjo.forum.domain.ValidationException;
+import com.harcanjo.forum.domain.answer.Answer;
+import com.harcanjo.forum.domain.answer.AnswerRepository;
 import com.harcanjo.forum.domain.profile.Profile;
 import com.harcanjo.forum.domain.profile.ProfileDetailsDTO;
 import com.harcanjo.forum.domain.profile.ProfileRepository;
+import com.harcanjo.forum.domain.topic.Topic;
+import com.harcanjo.forum.domain.topic.TopicRepository;
 
 import jakarta.validation.Valid;
 
@@ -26,6 +30,12 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private TopicRepository topicRepository;
+	
+	@Autowired
+	private AnswerRepository answerRepository;
 
 	public UserDetailsDTO createUser(@Valid UserCreationDTO data) {		
 		if (userRepository.existsByEmail(data.email())) {
@@ -127,5 +137,18 @@ public class UserService {
 	
 	private ProfileDetailsDTO mapProfileToUserDTO(Profile profile) {
 		return new ProfileDetailsDTO(profile);
+	}
+	
+	public void deleteUserById(Long userId) {
+	    User user = userRepository.findById(userId)
+	            .orElseThrow(() -> new ValidationException("User not found"));
+
+	    List<Answer> answers = answerRepository.findByUser(user);
+	    answerRepository.deleteAll(answers);
+
+	    List<Topic> topics = topicRepository.findByUser(user);
+	    topicRepository.deleteAll(topics);
+
+	    userRepository.delete(user);
 	}
 }

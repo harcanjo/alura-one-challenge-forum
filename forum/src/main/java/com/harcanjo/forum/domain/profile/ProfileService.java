@@ -21,18 +21,15 @@ public class ProfileService {
         if (profileOptional.isPresent()) {
             Profile profile = profileOptional.get();
 
-            // Remove associations in the user_profile table
+
             for (User user : profile.getUsers()) {
                 user.getProfiles().remove(profile);
             }
 
-            // Clear the associations from the Profile side
-            profile.getUsers().clear();
 
-            // Now delete the profile
+            profile.getUsers().clear();
             profileRepository.delete(profile);
         } else {
-            // Handle case where profile with given ID is not found
             throw new EntityNotFoundException("Profile with id " + profileId + " not found");
         }
     }

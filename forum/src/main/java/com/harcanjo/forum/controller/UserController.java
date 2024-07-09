@@ -77,7 +77,7 @@ public class UserController {
 	@Transactional
 	@SecurityRequirement(name = "bearer-key")
 	public void deleteUser(@PathVariable Long id) {
-		repository.deleteById(id);
+		userService.deleteUserById(id);
 	}
 	
 	@GetMapping("/{id}")
